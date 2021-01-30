@@ -84,6 +84,12 @@
 				</MakeCommands>
 			</Target>
 		</Build>
+		<Unit filename="/tmp/tmp.9RBpZBDrpP/Log.cpp">
+			<Option target="Project_1"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.9RBpZBDrpP/Log.h">
+			<Option target="Project_1"/>
+		</Unit>
 		<Unit filename="/tmp/tmp.9RBpZBDrpP/main.cpp">
 			<Option target="Project_1"/>
 		</Unit>
