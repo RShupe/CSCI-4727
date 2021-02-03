@@ -70,29 +70,29 @@ CMakeFiles/Project_1.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Project_1.dir/main.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /tmp/tmp.9RBpZBDrpP/main.cpp -o CMakeFiles/Project_1.dir/main.cpp.s
 
-CMakeFiles/Project_1.dir/Log.cpp.o: CMakeFiles/Project_1.dir/flags.make
-CMakeFiles/Project_1.dir/Log.cpp.o: ../Log.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.9RBpZBDrpP/cmake-build-debug-remote-pi/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Project_1.dir/Log.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Project_1.dir/Log.cpp.o -c /tmp/tmp.9RBpZBDrpP/Log.cpp
+CMakeFiles/Project_1.dir/Logger.cpp.o: CMakeFiles/Project_1.dir/flags.make
+CMakeFiles/Project_1.dir/Logger.cpp.o: ../Logger.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/tmp.9RBpZBDrpP/cmake-build-debug-remote-pi/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Project_1.dir/Logger.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Project_1.dir/Logger.cpp.o -c /tmp/tmp.9RBpZBDrpP/Logger.cpp
 
-CMakeFiles/Project_1.dir/Log.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Project_1.dir/Log.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /tmp/tmp.9RBpZBDrpP/Log.cpp > CMakeFiles/Project_1.dir/Log.cpp.i
+CMakeFiles/Project_1.dir/Logger.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Project_1.dir/Logger.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /tmp/tmp.9RBpZBDrpP/Logger.cpp > CMakeFiles/Project_1.dir/Logger.cpp.i
 
-CMakeFiles/Project_1.dir/Log.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Project_1.dir/Log.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /tmp/tmp.9RBpZBDrpP/Log.cpp -o CMakeFiles/Project_1.dir/Log.cpp.s
+CMakeFiles/Project_1.dir/Logger.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Project_1.dir/Logger.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /tmp/tmp.9RBpZBDrpP/Logger.cpp -o CMakeFiles/Project_1.dir/Logger.cpp.s
 
 # Object files for target Project_1
 Project_1_OBJECTS = \
 "CMakeFiles/Project_1.dir/main.cpp.o" \
-"CMakeFiles/Project_1.dir/Log.cpp.o"
+"CMakeFiles/Project_1.dir/Logger.cpp.o"
 
 # External object files for target Project_1
 Project_1_EXTERNAL_OBJECTS =
 
 Project_1: CMakeFiles/Project_1.dir/main.cpp.o
-Project_1: CMakeFiles/Project_1.dir/Log.cpp.o
+Project_1: CMakeFiles/Project_1.dir/Logger.cpp.o
 Project_1: CMakeFiles/Project_1.dir/build.make
 Project_1: CMakeFiles/Project_1.dir/link.txt
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/tmp/tmp.9RBpZBDrpP/cmake-build-debug-remote-pi/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable Project_1"

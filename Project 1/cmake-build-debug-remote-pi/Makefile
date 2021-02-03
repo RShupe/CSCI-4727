@@ -123,32 +123,32 @@ Project_1/fast:
 	$(MAKE) -f CMakeFiles/Project_1.dir/build.make CMakeFiles/Project_1.dir/build
 .PHONY : Project_1/fast
 
-Log.o: Log.cpp.o
+Logger.o: Logger.cpp.o
 
-.PHONY : Log.o
+.PHONY : Logger.o
 
 # target to build an object file
-Log.cpp.o:
-	$(MAKE) -f CMakeFiles/Project_1.dir/build.make CMakeFiles/Project_1.dir/Log.cpp.o
-.PHONY : Log.cpp.o
+Logger.cpp.o:
+	$(MAKE) -f CMakeFiles/Project_1.dir/build.make CMakeFiles/Project_1.dir/Logger.cpp.o
+.PHONY : Logger.cpp.o
 
-Log.i: Log.cpp.i
+Logger.i: Logger.cpp.i
 
-.PHONY : Log.i
+.PHONY : Logger.i
 
 # target to preprocess a source file
-Log.cpp.i:
-	$(MAKE) -f CMakeFiles/Project_1.dir/build.make CMakeFiles/Project_1.dir/Log.cpp.i
-.PHONY : Log.cpp.i
+Logger.cpp.i:
+	$(MAKE) -f CMakeFiles/Project_1.dir/build.make CMakeFiles/Project_1.dir/Logger.cpp.i
+.PHONY : Logger.cpp.i
 
-Log.s: Log.cpp.s
+Logger.s: Logger.cpp.s
 
-.PHONY : Log.s
+.PHONY : Logger.s
 
 # target to generate assembly for a file
-Log.cpp.s:
-	$(MAKE) -f CMakeFiles/Project_1.dir/build.make CMakeFiles/Project_1.dir/Log.cpp.s
-.PHONY : Log.cpp.s
+Logger.cpp.s:
+	$(MAKE) -f CMakeFiles/Project_1.dir/build.make CMakeFiles/Project_1.dir/Logger.cpp.s
+.PHONY : Logger.cpp.s
 
 main.o: main.cpp.o
 
@@ -186,9 +186,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... Project_1"
 	@echo "... edit_cache"
-	@echo "... Log.o"
-	@echo "... Log.i"
-	@echo "... Log.s"
+	@echo "... Logger.o"
+	@echo "... Logger.i"
+	@echo "... Logger.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

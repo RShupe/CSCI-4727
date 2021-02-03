@@ -4,7 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/tmp/tmp.9RBpZBDrpP/Log.cpp" "/tmp/tmp.9RBpZBDrpP/cmake-build-debug-remote-pi/CMakeFiles/Project_1.dir/Log.cpp.o"
+  "/tmp/tmp.9RBpZBDrpP/Logger.cpp" "/tmp/tmp.9RBpZBDrpP/cmake-build-debug-remote-pi/CMakeFiles/Project_1.dir/Logger.cpp.o"
   "/tmp/tmp.9RBpZBDrpP/main.cpp" "/tmp/tmp.9RBpZBDrpP/cmake-build-debug-remote-pi/CMakeFiles/Project_1.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")

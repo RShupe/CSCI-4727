@@ -23,6 +23,7 @@
          void Log(std::string context, std::string message);
          void LogToFile(std::string message);
          void LogToFile(std::string context, std::string message);
+         void LogToFile(std::string context, std::string name, std::string action, std::string targetName, std::string damage);
  };
 
 

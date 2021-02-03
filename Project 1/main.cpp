@@ -29,12 +29,12 @@ Logger logger;      //Logger object for outputting to the console and the log fi
 int main(int argc, char *argv[])
 {
     using namespace std;
-    Logger();
 
     CheckArguments(argc, argv);
 
     logger.LogToFile("THIS IS A TEST");
     logger.LogToFile("MESSAGE", "This is another test.");
+    logger.LogToFile("COMBAT", "Ryan", "punch", "Harrison", to_string(30));
 
 
     logger.CloseFile();
