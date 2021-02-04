@@ -10,7 +10,6 @@
 
 #include <iostream>
 #include <fstream>
-#include <chrono>
 #include "Logger.h"
 using namespace std;
 
@@ -89,6 +88,20 @@ void Logger::Log(string context, string message)
 }
 
 /**
+ * LogToBoth
+ *
+ * Log to the console and the file with message with [message] context
+ *
+ * @param context
+ * @param message
+ */
+void Logger::LogToBoth(string context, string message)
+{
+    cout << "[" << context << "] " << message << endl;
+    logFile << "[" << context << "] " << message << endl;
+}
+
+/**
  * LogToFile
  *
  * Log to the file the message
@@ -123,7 +136,7 @@ void Logger::LogToFile(string context, string message) {
 void Logger::LogToFile(string context, string name, string action, string targetName, string damage)
 {
     logFile << "[" << context << "] " << name  << " " <<
-    action << "ed " << targetName << " for " << damage << " damage!" << endl;
+            action << "ed " << targetName << " for " << damage << " damage!" << endl;
 }
 
 

@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /tmp/tmp.9RBpZBDrpP
+CMAKE_SOURCE_DIR = /tmp/tmp.u5X5CSxXaK
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /tmp/tmp.9RBpZBDrpP/cmake-build-debug-remote-pi
+CMAKE_BINARY_DIR = /tmp/tmp.u5X5CSxXaK/cmake-build-debug-remote-pi
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /tmp/tmp.9RBpZBDrpP/cmake-build-debug-remote-pi/CMakeFiles /tmp/tmp.9RBpZBDrpP/cmake-build-debug-remote-pi/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /tmp/tmp.u5X5CSxXaK/cmake-build-debug-remote-pi/CMakeFiles /tmp/tmp.u5X5CSxXaK/cmake-build-debug-remote-pi/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /tmp/tmp.9RBpZBDrpP/cmake-build-debug-remote-pi/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /tmp/tmp.u5X5CSxXaK/cmake-build-debug-remote-pi/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -111,44 +111,17 @@ depend:
 .PHONY : depend
 
 #=============================================================================
-# Target rules for targets named Project_1
+# Target rules for targets named test
 
 # Build rule for target.
-Project_1: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 Project_1
-.PHONY : Project_1
+test: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 test
+.PHONY : test
 
 # fast build rule for target.
-Project_1/fast:
-	$(MAKE) -f CMakeFiles/Project_1.dir/build.make CMakeFiles/Project_1.dir/build
-.PHONY : Project_1/fast
-
-lib/Logger.o: lib/Logger.cpp.o
-
-.PHONY : lib/Logger.o
-
-# target to build an object file
-lib/Logger.cpp.o:
-	$(MAKE) -f CMakeFiles/Project_1.dir/build.make CMakeFiles/Project_1.dir/lib/Logger.cpp.o
-.PHONY : lib/Logger.cpp.o
-
-lib/Logger.i: lib/Logger.cpp.i
-
-.PHONY : lib/Logger.i
-
-# target to preprocess a source file
-lib/Logger.cpp.i:
-	$(MAKE) -f CMakeFiles/Project_1.dir/build.make CMakeFiles/Project_1.dir/lib/Logger.cpp.i
-.PHONY : lib/Logger.cpp.i
-
-lib/Logger.s: lib/Logger.cpp.s
-
-.PHONY : lib/Logger.s
-
-# target to generate assembly for a file
-lib/Logger.cpp.s:
-	$(MAKE) -f CMakeFiles/Project_1.dir/build.make CMakeFiles/Project_1.dir/lib/Logger.cpp.s
-.PHONY : lib/Logger.cpp.s
+test/fast:
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/build
+.PHONY : test/fast
 
 main.o: main.cpp.o
 
@@ -156,7 +129,7 @@ main.o: main.cpp.o
 
 # target to build an object file
 main.cpp.o:
-	$(MAKE) -f CMakeFiles/Project_1.dir/build.make CMakeFiles/Project_1.dir/main.cpp.o
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/main.cpp.o
 .PHONY : main.cpp.o
 
 main.i: main.cpp.i
@@ -165,7 +138,7 @@ main.i: main.cpp.i
 
 # target to preprocess a source file
 main.cpp.i:
-	$(MAKE) -f CMakeFiles/Project_1.dir/build.make CMakeFiles/Project_1.dir/main.cpp.i
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/main.cpp.i
 .PHONY : main.cpp.i
 
 main.s: main.cpp.s
@@ -174,62 +147,8 @@ main.s: main.cpp.s
 
 # target to generate assembly for a file
 main.cpp.s:
-	$(MAKE) -f CMakeFiles/Project_1.dir/build.make CMakeFiles/Project_1.dir/main.cpp.s
+	$(MAKE) -f CMakeFiles/test.dir/build.make CMakeFiles/test.dir/main.cpp.s
 .PHONY : main.cpp.s
-
-mob/Bunny.o: mob/Bunny.cpp.o
-
-.PHONY : mob/Bunny.o
-
-# target to build an object file
-mob/Bunny.cpp.o:
-	$(MAKE) -f CMakeFiles/Project_1.dir/build.make CMakeFiles/Project_1.dir/mob/Bunny.cpp.o
-.PHONY : mob/Bunny.cpp.o
-
-mob/Bunny.i: mob/Bunny.cpp.i
-
-.PHONY : mob/Bunny.i
-
-# target to preprocess a source file
-mob/Bunny.cpp.i:
-	$(MAKE) -f CMakeFiles/Project_1.dir/build.make CMakeFiles/Project_1.dir/mob/Bunny.cpp.i
-.PHONY : mob/Bunny.cpp.i
-
-mob/Bunny.s: mob/Bunny.cpp.s
-
-.PHONY : mob/Bunny.s
-
-# target to generate assembly for a file
-mob/Bunny.cpp.s:
-	$(MAKE) -f CMakeFiles/Project_1.dir/build.make CMakeFiles/Project_1.dir/mob/Bunny.cpp.s
-.PHONY : mob/Bunny.cpp.s
-
-mob/Knight.o: mob/Knight.cpp.o
-
-.PHONY : mob/Knight.o
-
-# target to build an object file
-mob/Knight.cpp.o:
-	$(MAKE) -f CMakeFiles/Project_1.dir/build.make CMakeFiles/Project_1.dir/mob/Knight.cpp.o
-.PHONY : mob/Knight.cpp.o
-
-mob/Knight.i: mob/Knight.cpp.i
-
-.PHONY : mob/Knight.i
-
-# target to preprocess a source file
-mob/Knight.cpp.i:
-	$(MAKE) -f CMakeFiles/Project_1.dir/build.make CMakeFiles/Project_1.dir/mob/Knight.cpp.i
-.PHONY : mob/Knight.cpp.i
-
-mob/Knight.s: mob/Knight.cpp.s
-
-.PHONY : mob/Knight.s
-
-# target to generate assembly for a file
-mob/Knight.cpp.s:
-	$(MAKE) -f CMakeFiles/Project_1.dir/build.make CMakeFiles/Project_1.dir/mob/Knight.cpp.s
-.PHONY : mob/Knight.cpp.s
 
 # Help Target
 help:
@@ -238,20 +157,11 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... rebuild_cache"
-	@echo "... Project_1"
+	@echo "... test"
 	@echo "... edit_cache"
-	@echo "... lib/Logger.o"
-	@echo "... lib/Logger.i"
-	@echo "... lib/Logger.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
-	@echo "... mob/Bunny.o"
-	@echo "... mob/Bunny.i"
-	@echo "... mob/Bunny.s"
-	@echo "... mob/Knight.o"
-	@echo "... mob/Knight.i"
-	@echo "... mob/Knight.s"
 .PHONY : help
 
 

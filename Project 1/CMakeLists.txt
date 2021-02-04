@@ -3,4 +3,4 @@ project(Project_1)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(Project_1 main.cpp Logger.cpp Logger.h)
+add_executable(Project_1 main.cpp lib/Logger.cpp lib/Logger.h mob/Knight.cpp mob/Knight.h mob/Rabbit.cpp mob/Rabbit.h)

@@ -9,14 +9,29 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <iostream>
-#include "Logger.h"
+#include <vector>
+#include <functional>
+#include <memory>
+#include <list>
+#include "lib/Logger.h"
+#include "mob/Knight.h"
 
 void CheckArguments(int argc, char *argv[]);
 void Terminate();
+void fillVector(vector<Knight>&);
+void printVector(const vector<Knight>&);
 
 int side1Num = 0;   //The number of combatants for side 1;
 int side2Num = 0;   //The number of combatants for side 2;
 Logger logger;      //Logger object for outputting to the console and the log file.
+
+
+
+
+
+
+
+
 
 /**
  * Main
@@ -32,14 +47,16 @@ int main(int argc, char *argv[])
 
     CheckArguments(argc, argv);
 
-    logger.LogToFile("THIS IS A TEST");
-    logger.LogToFile("MESSAGE", "This is another test.");
-    logger.LogToFile("COMBAT", "Ryan", "punch", "Harrison", to_string(30));
-
+    logger.LogToFile("MESSAGE", "This is a test.");
+    logger.LogToBoth("COMBAT", "TEST");
 
     logger.CloseFile();
     return 0;
 }
+
+
+
+
 /**
  * Terminate
  *

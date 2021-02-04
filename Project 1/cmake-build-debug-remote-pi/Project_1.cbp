@@ -84,13 +84,25 @@
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/tmp/tmp.9RBpZBDrpP/Logger.cpp">
+		<Unit filename="/tmp/tmp.9RBpZBDrpP/lib/Logger.cpp">
 			<Option target="Project_1"/>
 		</Unit>
-		<Unit filename="/tmp/tmp.9RBpZBDrpP/Logger.h">
+		<Unit filename="/tmp/tmp.9RBpZBDrpP/lib/Logger.h">
 			<Option target="Project_1"/>
 		</Unit>
 		<Unit filename="/tmp/tmp.9RBpZBDrpP/main.cpp">
+			<Option target="Project_1"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.9RBpZBDrpP/mob/Bunny.cpp">
+			<Option target="Project_1"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.9RBpZBDrpP/mob/Bunny.h">
+			<Option target="Project_1"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.9RBpZBDrpP/mob/Knight.cpp">
+			<Option target="Project_1"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.9RBpZBDrpP/mob/Knight.h">
 			<Option target="Project_1"/>
 		</Unit>
 		<Unit filename="/tmp/tmp.9RBpZBDrpP/CMakeLists.txt">
