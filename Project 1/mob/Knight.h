@@ -12,14 +12,28 @@ using namespace std;
 
 class Knight
 {
+private:
+    string kName;                //The name of the character
+    string kCurrentAttack;       //The current attack the mob just casted
+    int kHealth;                 //The rHealth of the mob
+    int kAttackRate;             //The attack rate of the mod
+    int kStrongAttackDamage;     //The strong attack damage
+    int kWeakAttackDamage;       //The weak attack damage
+    int kAOEDamage;              //The AOE damage
+
 public:
     Knight();
     Knight(int nameNum);
+    Knight (string inName);
 
-    void GenerateName();
+    int Attack();
+
     void SetName(string inName);
     string GetName() const;
-    Knight (string inName);
+
+    void SetCurrentAttack(string inString);
+    string GetCurrentAttack() const;
+
     void SetHealth(int inHealth);
     int GetHealth() const;
 
@@ -34,6 +48,5 @@ public:
 
     void SetAOEDamage(int inAOEDmg);
     int GetAOEDamage() const;
-
 
 };

@@ -12,14 +12,28 @@ using namespace std;
 
 class Rabbit
 {
+private:
+    string rName;                //The name of the character
+    string rCurrentAttack;       //The current attack the mob just casted
+    int rHealth;                 //The rHealth of the mob
+    int rAttackRate;             //The attack rate of the mod
+    int rStrongAttackDamage;     //The strong attack damage
+    int rWeakAttackDamage;       //The weak attack damage
+    int rAOEDamage;              //The AOE damage
+
 public:
     Rabbit();
     Rabbit(int nameNum);
+    Rabbit (string inName);
 
-    void GenerateName();
+    int Attack();
+
+    void SetCurrentAttack(string inString);
+    string GetCurrentAttack() const;
+
     void SetName(string inName);
     string GetName() const;
-    Rabbit (string inName);
+
     void SetHealth(int inHealth);
     int GetHealth() const;
 
@@ -34,5 +48,4 @@ public:
 
     void SetAOEDamage(int inAOEDmg);
     int GetAOEDamage() const;
-
 };

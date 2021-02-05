@@ -93,16 +93,16 @@
 		<Unit filename="/tmp/tmp.9RBpZBDrpP/main.cpp">
 			<Option target="Project_1"/>
 		</Unit>
-		<Unit filename="/tmp/tmp.9RBpZBDrpP/mob/Bunny.cpp">
-			<Option target="Project_1"/>
-		</Unit>
-		<Unit filename="/tmp/tmp.9RBpZBDrpP/mob/Bunny.h">
-			<Option target="Project_1"/>
-		</Unit>
 		<Unit filename="/tmp/tmp.9RBpZBDrpP/mob/Knight.cpp">
 			<Option target="Project_1"/>
 		</Unit>
 		<Unit filename="/tmp/tmp.9RBpZBDrpP/mob/Knight.h">
+			<Option target="Project_1"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.9RBpZBDrpP/mob/Rabbit.cpp">
+			<Option target="Project_1"/>
+		</Unit>
+		<Unit filename="/tmp/tmp.9RBpZBDrpP/mob/Rabbit.h">
 			<Option target="Project_1"/>
 		</Unit>
 		<Unit filename="/tmp/tmp.9RBpZBDrpP/CMakeLists.txt">

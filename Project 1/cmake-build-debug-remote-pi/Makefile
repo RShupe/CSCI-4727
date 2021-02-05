@@ -177,33 +177,6 @@ main.cpp.s:
 	$(MAKE) -f CMakeFiles/Project_1.dir/build.make CMakeFiles/Project_1.dir/main.cpp.s
 .PHONY : main.cpp.s
 
-mob/Bunny.o: mob/Bunny.cpp.o
-
-.PHONY : mob/Bunny.o
-
-# target to build an object file
-mob/Bunny.cpp.o:
-	$(MAKE) -f CMakeFiles/Project_1.dir/build.make CMakeFiles/Project_1.dir/mob/Bunny.cpp.o
-.PHONY : mob/Bunny.cpp.o
-
-mob/Bunny.i: mob/Bunny.cpp.i
-
-.PHONY : mob/Bunny.i
-
-# target to preprocess a source file
-mob/Bunny.cpp.i:
-	$(MAKE) -f CMakeFiles/Project_1.dir/build.make CMakeFiles/Project_1.dir/mob/Bunny.cpp.i
-.PHONY : mob/Bunny.cpp.i
-
-mob/Bunny.s: mob/Bunny.cpp.s
-
-.PHONY : mob/Bunny.s
-
-# target to generate assembly for a file
-mob/Bunny.cpp.s:
-	$(MAKE) -f CMakeFiles/Project_1.dir/build.make CMakeFiles/Project_1.dir/mob/Bunny.cpp.s
-.PHONY : mob/Bunny.cpp.s
-
 mob/Knight.o: mob/Knight.cpp.o
 
 .PHONY : mob/Knight.o
@@ -231,6 +204,33 @@ mob/Knight.cpp.s:
 	$(MAKE) -f CMakeFiles/Project_1.dir/build.make CMakeFiles/Project_1.dir/mob/Knight.cpp.s
 .PHONY : mob/Knight.cpp.s
 
+mob/Rabbit.o: mob/Rabbit.cpp.o
+
+.PHONY : mob/Rabbit.o
+
+# target to build an object file
+mob/Rabbit.cpp.o:
+	$(MAKE) -f CMakeFiles/Project_1.dir/build.make CMakeFiles/Project_1.dir/mob/Rabbit.cpp.o
+.PHONY : mob/Rabbit.cpp.o
+
+mob/Rabbit.i: mob/Rabbit.cpp.i
+
+.PHONY : mob/Rabbit.i
+
+# target to preprocess a source file
+mob/Rabbit.cpp.i:
+	$(MAKE) -f CMakeFiles/Project_1.dir/build.make CMakeFiles/Project_1.dir/mob/Rabbit.cpp.i
+.PHONY : mob/Rabbit.cpp.i
+
+mob/Rabbit.s: mob/Rabbit.cpp.s
+
+.PHONY : mob/Rabbit.s
+
+# target to generate assembly for a file
+mob/Rabbit.cpp.s:
+	$(MAKE) -f CMakeFiles/Project_1.dir/build.make CMakeFiles/Project_1.dir/mob/Rabbit.cpp.s
+.PHONY : mob/Rabbit.cpp.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -246,12 +246,12 @@ help:
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
-	@echo "... mob/Bunny.o"
-	@echo "... mob/Bunny.i"
-	@echo "... mob/Bunny.s"
 	@echo "... mob/Knight.o"
 	@echo "... mob/Knight.i"
 	@echo "... mob/Knight.s"
+	@echo "... mob/Rabbit.o"
+	@echo "... mob/Rabbit.i"
+	@echo "... mob/Rabbit.s"
 .PHONY : help
 
 

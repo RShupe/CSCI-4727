@@ -9,28 +9,31 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <iostream>
+#include <stdlib.h>
+#include <sys/wait.h>
+#include <unistd.h>
 #include <vector>
 #include <functional>
-#include <memory>
-#include <list>
+
 #include "lib/Logger.h"
+
 #include "mob/Knight.h"
+#include "mob/Rabbit.h"
+
+typedef struct
+{
+    int from;
+    string type;
+    int damage;
+} Message;
+
 
 void CheckArguments(int argc, char *argv[]);
 void Terminate();
-void fillVector(vector<Knight>&);
-void printVector(const vector<Knight>&);
 
-int side1Num = 0;   //The number of combatants for side 1;
-int side2Num = 0;   //The number of combatants for side 2;
+int maxKnightNum = 0;   //The number of knights combatants for side 1;
+int maxRabbitNum = 0;   //The number of rabbits combatants for side 2;
 Logger logger;      //Logger object for outputting to the console and the log file.
-
-
-
-
-
-
-
 
 
 /**
@@ -41,20 +44,104 @@ Logger logger;      //Logger object for outputting to the console and the log fi
  * @param agc - count of arguments
  * @param argv - the value of the arguments
  */
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
     using namespace std;
 
-    CheckArguments(argc, argv);
+    CheckArguments(argc, argv); //check the arguments
 
-    logger.LogToFile("MESSAGE", "This is a test.");
-    logger.LogToBoth("COMBAT", "TEST");
+    int pipe1[2];
+    int pipe2[2];
+
+    if (pipe(pipe1) == -1)
+    {
+        logger.Log("ERROR", "Error opening pipe 1.");
+    }
+
+    if (pipe(pipe2) == -1)
+    {
+        logger.Log("ERROR", "Error opening pipe 2.");
+    }
+
+    logger.Log("SUCCESS", "Pipes opened correctly!");
+
+
+    int child1 = fork();
+    if (child1 == -1)
+    {
+        logger.Log("ERROR", "Error forking for child 1.");
+    }
+    else if (child1 == 0)
+    {
+        int temp = maxKnightNum;
+        logger.Log("MESSAGE", "This is child 1.");
+
+        for(int i = 0; i < maxKnightNum; i++)
+        {
+            Knight currentKnight;
+            if(i < 14)
+            {
+                currentKnight = Knight(i); //create knight
+            }
+            else
+            {
+                logger.Log("WARNING", "Knights names have run out, names are the number of knight");
+                currentKnight = Knight(to_string(i + 1));
+            }
+
+            //logger.Log(currentKnight.GetName());
+            //while loop? while health > 0
+
+            //send attack or receive
+
+        }
+        _Exit(0);
+    }
+    else
+    {
+
+    }
+
+
+    int child2 = fork();
+    if (child2 == -1)
+    {
+        logger.Log("ERROR", "Error forking for child 2.");
+    }
+    else if (child2 == 0)
+    {
+        int temp = maxRabbitNum;
+        logger.Log("MESSAGE", "This is child 2.");
+
+        for(int i = 0; i < maxRabbitNum; i++)
+        {
+            Rabbit currentRabbit;
+            if(i < 10)
+            {
+                currentRabbit = Rabbit(i); //create knight
+            }
+            else
+            {
+                logger.Log("WARNING", "Rabbit names have run out, names are the number of rabbit");
+                currentRabbit = Rabbit(to_string(i + 1));
+            }
+            //logger.Log(currentRabbit.GetName());
+        }
+        _Exit(0);
+    }
+    else
+    {
+
+    }
+
+    int t;
+    for(int i = 0; i < 5; i++)
+    {
+        wait(&t);
+    }
 
     logger.CloseFile();
     return 0;
 }
-
-
 
 
 /**
@@ -102,14 +189,14 @@ void CheckArguments(int argc, char *argv[])
             {
                 lFound = true;
 
-                logger.Log("MESSAGE", "-l found");
+                //logger.Log("MESSAGE", "-l found");
                 try
                 {
                     //try getting the string of the logfile name, if not found or null then default to 'log'
                     if (string(argv[i + 1]) != "-m" && string(argv[i + 1]) != "-n")
                     {
                         logger.SetLogFileName(string(argv[i + 1]));
-                        logger.Log("MESSAGE", "Log file name is set to: " + string(argv[i + 1]));
+                        //logger.Log("MESSAGE", "Log file name is set to: " + string(argv[i + 1]));
                         logger.OpenFile();
                     }
                     else
@@ -131,15 +218,15 @@ void CheckArguments(int argc, char *argv[])
             else if (string(argv[i]) == "-m") // check for the m flag and make sure the value is right
             {
                 mFound = true;
-                logger.Log("MESSAGE", "-m found");
+                //logger.Log("MESSAGE", "-m found");
 
                 try
                 {
                     if (string(argv[i + 1]) != "-l" && string(argv[i + 1]) != "-n")
                     {
-                        side1Num = stoi(string(argv[i + 1]));
+                        maxKnightNum = stoi(string(argv[i + 1]));
 
-                        if(side1Num < 1)
+                        if(maxKnightNum < 1)
                         {
                             logger.Log("ERROR", "-M and -N have to be 1 or greater");
                             Terminate();
@@ -164,15 +251,15 @@ void CheckArguments(int argc, char *argv[])
             else if (string(argv[i]) == "-n") // check for the n flag and make sure the value is right
             {
                 nFound = true;
-                logger.Log("MESSAGE", "-n found");
+                //logger.Log("MESSAGE", "-n found");
 
                 try
                 {
                     if (string(argv[i + 1]) != "-l" && string(argv[i + 1]) != "-m")
                     {
-                        side2Num = stoi(string(argv[i + 1]));
+                        maxRabbitNum = stoi(string(argv[i + 1]));
 
-                        if(side2Num < 1)
+                        if(maxRabbitNum < 1)
                         {
                             logger.Log("ERROR", "-M and -N have to be 1 or greater");
                             Terminate();
@@ -209,15 +296,15 @@ void CheckArguments(int argc, char *argv[])
             Terminate(); //terminate if n and m are not found
         }
 
-        if(side1Num + side2Num < 5)
+        if(maxKnightNum + maxRabbitNum < 5)
         {
             logger.Log("ERROR", "M + N MUST be greater than or equal to 5.");
             Terminate(); //terminate if n and m are not found
         }
 
         //debugging
-        logger.Log("MESSAGE", "M: " + to_string(side1Num));
-        logger.Log("MESSAGE", "N: " + to_string(side2Num));
-        logger.Log("MESSAGE", "LOGFILE: " + logger.GetLogFileName());
+        //logger.Log("MESSAGE", "M: " + to_string(side1Num));
+        //logger.Log("MESSAGE", "N: " + to_string(maxRabbitNum));
+        //logger.Log("MESSAGE", "LOGFILE: " + logger.GetLogFileName());
     }
 }
