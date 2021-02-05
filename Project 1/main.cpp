@@ -22,7 +22,7 @@
 
 typedef struct
 {
-    int from;
+    string from;
     string type;
     int damage;
 } Message;
@@ -30,10 +30,12 @@ typedef struct
 
 void CheckArguments(int argc, char *argv[]);
 void Terminate();
+void Child1Code();
 
 int maxKnightNum = 0;   //The number of knights combatants for side 1;
 int maxRabbitNum = 0;   //The number of rabbits combatants for side 2;
 Logger logger;      //Logger object for outputting to the console and the log file.
+
 
 
 /**
@@ -46,6 +48,7 @@ Logger logger;      //Logger object for outputting to the console and the log fi
  */
 int main(int argc, char *argv[]) {
     using namespace std;
+    Message msg;
 
     CheckArguments(argc, argv); //check the arguments
 
@@ -65,72 +68,93 @@ int main(int argc, char *argv[]) {
     logger.Log("SUCCESS", "Pipes opened correctly!");
 
 
-    int child1 = fork();
-    if (child1 == -1)
+    for(int i = 0; i < maxKnightNum; i++)
     {
-        logger.Log("ERROR", "Error forking for child 1.");
-    }
-    else if (child1 == 0)
-    {
-        int temp = maxKnightNum;
-        logger.Log("MESSAGE", "This is child 1.");
-
-        for(int i = 0; i < maxKnightNum; i++)
+        int knightChild = fork();
+        if (knightChild == -1)
         {
-            Knight currentKnight;
-            if(i < 14)
-            {
-                currentKnight = Knight(i); //create knight
-            }
-            else
-            {
-                logger.Log("WARNING", "Knights names have run out, names are the number of knight");
-                currentKnight = Knight(to_string(i + 1));
-            }
+            logger.Log("ERROR", "Error forking for child 1.");
+        }
+        else if (knightChild == 0) //This is the first child's code
+        {
+            logger.Log("Knight child open: " + to_string(i + 1));
+
+
+            Knight newKnight(i);
+
+            int counter = 0;
 
             //logger.Log(currentKnight.GetName());
             //while loop? while health > 0
+            while (newKnight.GetHealth() > 0) {
+                if (counter == newKnight.GetAttackRate()) {
+                    counter = 0;
 
-            //send attack or receive
+                    msg.damage = newKnight.Attack();
+                    msg.from = newKnight.GetName();
+                    msg.type = newKnight.GetCurrentAttack();
 
+                    //write(pipe1[1], (char *) &msg, sizeof(Message));
+
+                    //logger.Log(msg.type);
+
+                }
+
+                counter++; // increment the counter to attack on the right loop
+
+                newKnight.SetHealth(newKnight.GetHealth() - 10);
+
+
+
+                //send attack or receive
+
+            }
+            _Exit(0);
         }
-        _Exit(0);
-    }
-    else
-    {
-
     }
 
-
-    int child2 = fork();
-    if (child2 == -1)
+    for(int i = 0; i < maxRabbitNum; i++)
     {
-        logger.Log("ERROR", "Error forking for child 2.");
-    }
-    else if (child2 == 0)
-    {
-        int temp = maxRabbitNum;
-        logger.Log("MESSAGE", "This is child 2.");
-
-        for(int i = 0; i < maxRabbitNum; i++)
+        int rabbitChild = fork();
+        if (rabbitChild == -1)
         {
-            Rabbit currentRabbit;
-            if(i < 10)
-            {
-                currentRabbit = Rabbit(i); //create knight
-            }
-            else
-            {
-                logger.Log("WARNING", "Rabbit names have run out, names are the number of rabbit");
-                currentRabbit = Rabbit(to_string(i + 1));
-            }
-            //logger.Log(currentRabbit.GetName());
+            logger.Log("ERROR", "Error forking for child 2.");
         }
-        _Exit(0);
-    }
-    else
-    {
+        else if (rabbitChild == 0) //This is the first child's cod
+        {
+            logger.Log("Rabbit child open: " + to_string(i + 1));
 
+            Knight newKnight(i);
+
+            int counter = 0;
+
+            //logger.Log(currentKnight.GetName());
+            //while loop? while health > 0
+            while (newKnight.GetHealth() > 0)
+            {
+                if (counter == newKnight.GetAttackRate())
+                {
+                    counter = 0;
+
+                    msg.damage = newKnight.Attack();
+                    msg.from = newKnight.GetName();
+                    msg.type = newKnight.GetCurrentAttack();
+
+                    //write(pipe1[1], (char *) &msg, sizeof(Message));
+
+                    //logger.Log(msg.type);
+
+                }
+
+                counter++; // increment the counter to attack on the right loop
+
+                newKnight.SetHealth(newKnight.GetHealth() - 10);
+
+                //send attack or receive
+
+            }
+            _Exit(0);
+        }
     }
 
     int t;
@@ -142,6 +166,8 @@ int main(int argc, char *argv[]) {
     logger.CloseFile();
     return 0;
 }
+
+
 
 
 /**
