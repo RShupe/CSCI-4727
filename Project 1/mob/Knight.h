@@ -13,8 +13,7 @@ using namespace std;
 class Knight
 {
 private:
-    string kName;                //The name of the character
-    string kCurrentAttack;       //The current attack the mob just casted
+    int kType;                //The name of the character
     int kHealth;                 //The rHealth of the mob
     int kAttackRate;             //The attack rate of the mod
     int kStrongAttackDamage;     //The strong attack damage
@@ -23,16 +22,9 @@ private:
 
 public:
     Knight();
-    Knight(int nameNum);
-    Knight (string inName);
 
-    int Attack();
-
-    void SetName(string inName);
-    string GetName() const;
-
-    void SetCurrentAttack(string inString);
-    string GetCurrentAttack() const;
+    void SetType(int inName);
+    int GetType() const;
 
     void SetHealth(int inHealth);
     int GetHealth() const;

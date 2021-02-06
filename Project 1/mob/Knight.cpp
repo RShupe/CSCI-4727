@@ -7,18 +7,10 @@
 //	Created:                        Wednesday February 3, 2021
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-#include <iostream>
+
 #include "Knight.h"
-#include <string>
 
 using namespace std;
-
-
-string nameBank_Knight[] = {"King Arthur", "Sir Bedevere the Wise", "Sir Lancelot the Brave", "Sir Galahad the Chaste/Pure",
-                            "Sir Robin the Not-Quite-So-Brave-As-Sir-Lancelot", "Sir Bors", "Sir Gawain", "Sir Ector", "Guillot the Truthful"
-        ,"Gerould the Loyal", "Symon of the Fall", "Dodge the Bald", "Han the Smiling", "Sir Harrison"};
-
-        //name bank for naming knights.
 
 /**
 * Knight
@@ -27,6 +19,7 @@ string nameBank_Knight[] = {"King Arthur", "Sir Bedevere the Wise", "Sir Lancelo
 */
 Knight::Knight ()
 {
+    SetType(0);
     SetHealth(100);
     SetAttackRate(2);
     SetStrongAttackDmg(10);
@@ -34,77 +27,6 @@ Knight::Knight ()
     SetAOEDamage(8);
 };
 
-/**
- * Knight
- *
- * constructor that sets a name from the custom string
- * @param Name
- */
-Knight::Knight (string inName)
-{
-    SetName("Knight " + inName);
-};
-
-/**
- * Knight
- *
- * constructor that sets a name from the word bank
- * @param Name number
- */
-Knight::Knight(int nameNum)
-{
-    SetName(nameBank_Knight[nameNum]);
-};
-
-/**
- * Attack
- *
- * Generates an attack, sets the current attack string to the attack chosen, as well as return the damage number
- * @returns Damage Dealt
- */
-int Knight::Attack()
-{
-    srand (time(NULL));
-    int randomNumber = rand() % 10 + 1;
-
-    if(randomNumber <= 15)
-    {
-       SetCurrentAttack("Slash");
-        return GetStrongAttackDmg();
-    }
-    else if(randomNumber <= 75)
-    {
-        SetCurrentAttack("Thrust");
-        return GetWeakAttackDmg();
-    }
-    else
-    {
-        SetCurrentAttack("Cleave");
-        return GetAOEDamage();
-    }
-}
-
-/**
- * SetCurrentAttack
- *
- * sets the attack string to the string passed in
- * @param Attack String
- */
-void Knight::SetCurrentAttack(string inString)
-{
-    kCurrentAttack = inString;
-}
-
-/**
- * GetCurrentAttack
- *
- * Returns the current attack
- * @returns Attack String
- */
-string Knight::GetCurrentAttack() const
-{
-    return kCurrentAttack;
-}
 
 /**
  * SetName
@@ -112,9 +34,9 @@ string Knight::GetCurrentAttack() const
  * sets the name to the string passed in
  * @param Name
  */
-void Knight::SetName(string inName)
+void Knight::SetType(int inName)
 {
-    kName = inName;
+    kType = inName;
 }
 
 /**
@@ -123,9 +45,9 @@ void Knight::SetName(string inName)
  * Returns the name
  * @returns Name
  */
-string Knight::GetName() const
+int Knight::GetType() const
 {
-    return kName;
+    return kType;
 }
 
 /**
