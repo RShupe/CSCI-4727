@@ -1,0 +1,1 @@
+/usr/bin/c++  -g   CMakeFiles/Project_1.dir/main.cpp.o CMakeFiles/Project_1.dir/lib/Logger.cpp.o CMakeFiles/Project_1.dir/mob/Knight.cpp.o CMakeFiles/Project_1.dir/mob/Rabbit.cpp.o  -o Project_1 

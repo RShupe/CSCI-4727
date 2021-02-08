@@ -8,9 +8,13 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+#include <string>
 #include "Rabbit.h"
 
 using namespace std;
+
+string nameBank_Rabbit[] = {"Waterton", "Sargos", "Blooding", "Carrotton", "Hareington", "Hopsville USA", "Florida", "Eggerton", "Volta",
+                            "Eleyvine"};
 
 /**
 * Knight
@@ -20,11 +24,22 @@ using namespace std;
 Rabbit::Rabbit ()
 {
     SetHealth(100);
-    SetAttackRate(4);
+    SetAttackRate(5);
     SetStrongAttackDmg(15);
     SetWeakAttackDmg(8);
     SetAOEDamage(10);
 };
+
+void Rabbit::SetName(int inName)
+{
+    string temp = "Killer Rabbit of " + nameBank_Rabbit[inName];
+    rName = temp;
+}
+
+string Rabbit::GetName() const
+{
+    return rName;
+}
 
 
 /**

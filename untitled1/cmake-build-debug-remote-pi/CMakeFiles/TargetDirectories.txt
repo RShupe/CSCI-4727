@@ -1,0 +1,3 @@
+/tmp/tmp.ayUEGzNWeI/cmake-build-debug-remote-pi/CMakeFiles/rebuild_cache.dir
+/tmp/tmp.ayUEGzNWeI/cmake-build-debug-remote-pi/CMakeFiles/untitled1.dir
+/tmp/tmp.ayUEGzNWeI/cmake-build-debug-remote-pi/CMakeFiles/edit_cache.dir

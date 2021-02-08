@@ -13,7 +13,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <vector>
-#include <functional>
+
 #include<fcntl.h>
 
 #include "lib/Logger.h"
@@ -21,38 +21,33 @@
 #include "mob/Knight.h"
 #include "mob/Rabbit.h"
 
+//Struct for the message that gets sent across pipes
 typedef struct
 {
     int from;
     int type;
     int damage;
-    int index;
-    int indexTo;
 
 } Message;
+
+typedef struct
+{
+    string Message;
+
+} LogMessage;
 
 
 void CheckArguments(int argc, char *argv[]);
 void Terminate();
-void MainProcess();
-
+void LoggerProcess();
 
 int maxKnightNum = 0;   //The number of knights combatants for side 1;
 int maxRabbitNum = 0;   //The number of rabbits combatants for side 2;
 Logger logger;          //Logger object for outputting to the console and the log file.
 
+int loggerPipe[2];
 int mainPipe[2];
-int knightNumPipe[2];
-int rabbitNumPipe[2];
 
-
-
-//name bank for naming knights and rabbits.
-string nameBank_Knight[] = {"King Arthur", "Sir Bedevere the Wise", "Sir Lancelot the Brave", "Sir Galahad the Chaste/Pure",
-                            "Sir Robin the Not-Quite-So-Brave-As-Sir-Lancelot", "Sir Bors", "Sir Gawain", "Sir Ector", "Guillot the Truthful"
-        ,"Gerould the Loyal", "Symon of the Fall", "Dodge the Bald", "Han the Smiling", "Sir Harrison"};
-string nameBank_Rabbit[] = {"Waterton", "Sargos", "Blooding", "Carrotton", "Hareington", "Hopsville USA", "Florida", "Eggerton", "Volta",
-                            "Eleyvine"};
 
 /**
  * Main
@@ -64,377 +59,299 @@ string nameBank_Rabbit[] = {"Waterton", "Sargos", "Blooding", "Carrotton", "Hare
  */
 int main(int argc, char *argv[]) {
     using namespace std;
+
+    srand (time(NULL));
+    CheckArguments(argc, argv); //check the arguments
+
     int KnightPipes[maxKnightNum][2];
     int RabbitPipes[maxRabbitNum][2];
 
-    srand (time(NULL));
 
-    CheckArguments(argc, argv); //check the arguments
+    pipe(loggerPipe); //create the logger process pipe
+    pipe(mainPipe); //create the logger process pipe
 
+    int loggerChild = fork();
+    if (loggerChild == -1)
+    {
+        logger.Log("ERROR", "Error forking logger.");
+    }
+    else if (loggerChild == 0) //This is the child's code
+    {
+        srand (time(NULL));
+        LoggerProcess();
+    }
 
-    for(int i = 0; i < maxKnightNum; i ++) //create a pipe for each child process
+    for(int i = 0 ; i < maxKnightNum; i ++)
     {
         pipe(KnightPipes[i]);
-
-        //From Geeksforgeeks.com
-        //https://www.geeksforgeeks.org/non-blocking-io-with-pipes-in-c/
-        if (fcntl(KnightPipes[i][0], F_SETFL, O_NONBLOCK) < 0)
-            exit(2);
     }
-    for(int i = 0; i < maxRabbitNum; i ++) //create a pipe for each child process
+
+    for(int i = 0 ; i < maxRabbitNum; i ++)
     {
         pipe(RabbitPipes[i]);
-
-        //From Geeksforgeeks.com
-        //https://www.geeksforgeeks.org/non-blocking-io-with-pipes-in-c/
-        if (fcntl(RabbitPipes[i][0], F_SETFL, O_NONBLOCK) < 0)
-            exit(2);
-    }
-
-    pipe(mainPipe); //create the main process pipe
-
-
-    pipe(rabbitNumPipe);
-    pipe(knightNumPipe);
-
-    write(knightNumPipe[1], &maxKnightNum, sizeof(maxKnightNum)); //write the current number of knights to a pipe
-    write(rabbitNumPipe[1], &maxRabbitNum, sizeof(maxRabbitNum)); //write the current number of rabbits to a pipe
-
-
-    for(int i = 0; i < maxKnightNum; i ++)
-    {
-        logger.Log("Spawned " + nameBank_Knight[i]);
-    }
-    for(int i = 0; i < maxRabbitNum; i ++)
-    {
-        logger.Log("Spawned " + nameBank_Rabbit[i]);
     }
 
 
     int knightChild;
-    for(int i = 0; i < maxKnightNum; i++)
-    {
+    for(int i = 0; i < maxKnightNum; i++) {
         knightChild = fork();
 
-        if (knightChild == -1)
-        {
+        if (knightChild == -1) {
             logger.Log("ERROR", "Error forking for child.");
         }
         else if (knightChild == 0) //This is the child's code
         {
-            Knight tempKnight;
+            srand (time(NULL));
             Message msg;
+            Knight knight;
             int counter = 0;
-            int numberOfKnights;
 
-            while (tempKnight.GetHealth() > 0 )
+            while(knight.GetHealth() > 0)
             {
-                msg.from = 0;
-
-                if(counter == tempKnight.GetAttackRate())
+                sleep(.2);
+                //RECEIVE
+                if(read(KnightPipes[i][0], &msg, sizeof (Message)) > 0)
                 {
-                    //attack a rabbit
+                    knight.SetHealth(knight.GetHealth() - msg.damage);
+
+                    Rabbit rabbit;
+                    rabbit.SetName(msg.from);
+
+                    //LogMessage log;
+                    //log.Message = knight.GetName() + " received " + to_string(msg.damage) + " damage from " +
+                           // rabbit.GetName();
+
+                    write(loggerPipe[1], &msg, sizeof (Message));// log the received attack
+
+                    if(knight.GetHealth() < 0){
+                        break;
+                    }
+                }
+
+                //ATTACK
+                if(counter == knight.GetAttackRate())
+                {
                     counter = 0;
 
                     int randomNumber = rand() % 100 + 1;
-
                     if(randomNumber <= 15) // generate an attack
                     {
                         msg.type = 0;
-                        msg.damage = tempKnight.GetStrongAttackDmg();
+                        msg.damage = knight.GetStrongAttackDmg();
                     }
                     else if(randomNumber <= 75)
                     {
                         msg.type = 1;
-                        msg.damage = tempKnight.GetWeakAttackDmg();
+                        msg.damage = knight.GetWeakAttackDmg();
                     }
                     else
                     {
                         msg.type = 2;
-                        msg.damage = tempKnight.GetAOEDamage();
+                        msg.damage = knight.GetAOEDamage();
                     }
 
-                    msg.index = i; //from
-                    sleep(0.1);
-
-                    int rabbitNum;
-                    ////////////////////////////////////// SEND ATTACK
-                    if(read(rabbitNumPipe[0], &rabbitNum, sizeof(rabbitNum)) > 0)
-                    {
-                        if(rabbitNum > 0)
-                        {
-                            int chosenRabbit = rand() % rabbitNum; //should get random rabbit to attack here ********* from the current rabbit number
-
-                            msg.indexTo = chosenRabbit; //document the receiving person
-                            write(RabbitPipes[chosenRabbit][1], (char*) &msg, sizeof (Message)); //write the attack to the chosen rabbit
-
-                            write(mainPipe[1], (char*) &msg, sizeof (Message)); //log this attack
-                            write(rabbitNumPipe[1], &rabbitNum, sizeof(rabbitNum)); // write back rabbit num
-                        }
-                        else
-                        {
-                            int temp = 0;
-                            logger.Log("no more rabbits to attack");
-                            write(knightNumPipe[1], &temp, sizeof (temp));
-                        }
-                    };
-                    /////////////////////////////////////
-
+                    msg.from = maxRabbitNum + i;
+                    write(RabbitPipes[i][1], &msg, sizeof(Message));
                 }
-                if(tempKnight.GetHealth() > 0) // if the knight is alive we can take an attack
+                else
                 {
-                    int checkIfNull = read(KnightPipes[i][0], (char* ) &msg, sizeof(Message));
-                    if(checkIfNull > 0)
-                    {
-                        tempKnight.SetHealth(tempKnight.GetHealth() - msg.damage);
-                    };
+                    counter ++;
                 }
-                counter ++;
             }
 
-/////////////////////////////////////////////////////////////////////////////////////////////////
-//PROGRAM GETS STUCK SOMEWHERE AROUND HERE
+            //SIGNAL TO MAIN OF DEATH
+            msg.from = maxRabbitNum + i; //KNIGHT ID IS THROUGH maxRabbitnum - k
+            write(mainPipe[1], &msg, sizeof (Message));
 
-            //reduce the number of knights when one dies
-            if(read(knightNumPipe[0], &numberOfKnights, sizeof (numberOfKnights)) > 0)
-            {
-                numberOfKnights--;
-                write(knightNumPipe[1], &numberOfKnights, sizeof(numberOfKnights));
-                close(KnightPipes[i][0]);
-                close(KnightPipes[i][1]);
-            };
+            close(KnightPipes[i][0]);
+            //close(KnightPipes[i][1]);
 
-            msg.from = 0; //this is to tell the logger a knight has died
-            msg.damage = 0;
-            msg.index = i;
-
-            write(mainPipe[1], (char*) &msg, sizeof (Message));
-
-
-            msg.from = 0;
-            msg.damage = 0;
-            msg.type = 0;
-            msg.index = 0;
-            write(mainPipe[1], (char*) &msg, sizeof (Message));
-
-            _Exit(0);
-
-/////////////////////////////////////////////////////////////////////////////////////////////////
+            _exit(EXIT_SUCCESS);
         }
-        else
-        {
-           // MainProcess();
+        else{
         }
     }
+
 
     int rabbitChild;
     for(int i = 0; i < maxRabbitNum; i++)
     {
         rabbitChild = fork();
 
-        if (rabbitChild == -1)
-        {
+        if (rabbitChild == -1) {
             logger.Log("ERROR", "Error forking for child.");
         }
         else if (rabbitChild == 0) //This is the child's code
         {
-            Rabbit tempRabbit;
+            srand (time(NULL));
             Message msg;
+            Rabbit rabbit;
             int counter = 0;
-            int numberOfRabbits;
 
-            while (tempRabbit.GetHealth() > 0 )
+            while(rabbit.GetHealth() > 0)
             {
-                msg.from = 1;
-
-                if(counter == tempRabbit.GetAttackRate())
+                sleep(.2);
+                //RECEIVE
+                if(read(RabbitPipes[i][0], &msg, sizeof (Message)) > 0)
                 {
-                    //attack a rabbit
+                    rabbit.SetHealth(rabbit.GetHealth() - msg.damage);
+                    write(loggerPipe[1], &msg, sizeof (Message));// log the received attack
+
+                    if(rabbit.GetHealth() < 0){
+                        break;
+                    }
+                }
+
+                //ATTACK
+                if(counter == rabbit.GetAttackRate())
+                {
                     counter = 0;
 
                     int randomNumber = rand() % 100 + 1;
-
                     if(randomNumber <= 15) // generate an attack
                     {
                         msg.type = 0;
-                        msg.damage = tempRabbit.GetStrongAttackDmg();
+                        msg.damage = rabbit.GetStrongAttackDmg();
                     }
                     else if(randomNumber <= 75)
                     {
                         msg.type = 1;
-                        msg.damage = tempRabbit.GetWeakAttackDmg();
+                        msg.damage = rabbit.GetWeakAttackDmg();
                     }
                     else
                     {
                         msg.type = 2;
-                        msg.damage = tempRabbit.GetAOEDamage();
+                        msg.damage = rabbit.GetAOEDamage();
                     }
 
-                    msg.index = i; //from
-                    sleep(0.1);
-
-                    int knightNum;
-                    ////////////////////////////////////// SEND ATTACK
-                    if(read(knightNumPipe[0], &knightNum, sizeof(knightNum)) > 0)
-                    {
-                        if(knightNum > 0)
-                        {
-                            int chosenKnight = rand() % knightNum; //should get random rabbit to attack here ********* from the current rabbit number
-
-                            msg.indexTo = chosenKnight; //document the receiving person
-                            write(KnightPipes[chosenKnight][1], (char*) &msg, sizeof (Message));
-
-                            write(mainPipe[1], (char*) &msg, sizeof (Message)); //log this attack
-                            write(knightNumPipe[1], &knightNum, sizeof(knightNum));
-                        }
-                        else
-                        {
-                            int temp = -1;
-                            write(knightNumPipe[1], &temp, sizeof (temp));
-
-                            _Exit(0);
-                        }
-
-                    };
-                    /////////////////////////////////////
-
-                }
-                if(tempRabbit.GetHealth() > 0) // if the knight is alive we can take an attack
-                {
-                    int checkIfNull = read(RabbitPipes[i][0], (char* ) &msg, sizeof(Message));
-                    if(checkIfNull > 0)
-                    {
-                        tempRabbit.SetHealth(tempRabbit.GetHealth() - msg.damage);
-                    };
-                }
-                counter ++;
-            }
-
-            //reduce the number of rabbits when one dies
-            if(read(rabbitNumPipe[0], &numberOfRabbits, sizeof (numberOfRabbits)) > 0)
-            {
-                numberOfRabbits--;
-                write(rabbitNumPipe[1], &numberOfRabbits, sizeof(numberOfRabbits));
-
-                close(RabbitPipes[i][0]);
-                close(RabbitPipes[i][1]);
-            };
-
-            msg.from = 1; //this is to tell the logger a rabbit has died
-            msg.damage = 0;
-            msg.index = i;
-            write(mainPipe[1], (char*) &msg, sizeof (Message));
-
-
-           msg.from = 0;
-           msg.damage = 0;
-            msg.type = 0;
-            msg.index = 0;
-            write(mainPipe[1], (char*) &msg, sizeof (Message));
-
-            _Exit(0);
-        }
-        else
-        {
-            //MainProcess();
-        }
-    }
-
-    MainProcess();
-
-    logger.Log("\n");
-    int status;
-    for(int i = 0; i < maxRabbitNum + maxKnightNum; i ++)
-    {
-        wait(&status);
-    }
-
-    int result;
-    if(read(knightNumPipe[0], &result, sizeof (result)) > 0){
-        if(result == 0)
-        {
-            logger.Log("KNIGHTS WIN");
-        }else{
-            logger.Log("RABBITS WIN");
-        }
-    }
-
-    logger.CloseFile();
-    return 0;
-}
-
-void MainProcess()
-{
-    //logger.Log("This is the main process code.");
-    Message msgIn;
-
-    while(read(mainPipe[0], (char * )&msgIn, sizeof (Message)) > 0)
-    {
-        string outString = "";
-
-        if (msgIn.damage == 0 && msgIn.type == 0 && msgIn.from == 0 && msgIn.index == 0)
-        {
-            break;
-        }
-
-        else if(msgIn.damage == 0 && msgIn.from == 0) //check for death
-        {
-            outString = (nameBank_Knight[msgIn.index] + " has fallen!");
-        }
-        else if(msgIn.damage == 0 && msgIn.from == 1) //check for death
-        {
-            outString = "Killer Rabbit of " + (nameBank_Rabbit[msgIn.index] + " has fallen!");
-        }
-        else
-        {
-            if(msgIn.from == 0)
-            {
-                outString += nameBank_Knight[msgIn.index] + " ";
-
-                if(msgIn.type == 0)
-                {
-                    outString +=  ("slashed ");
-                }
-                else if (msgIn.type == 1)
-                {
-                    outString += ("thrusted ");
+                    msg.from = i;
+                    write(KnightPipes[i][1], &msg, sizeof(Message));
                 }
                 else
                 {
-                    outString += ("cleaved ");
+                    counter ++;
                 }
+            }
 
-                outString += "Killer Rabbit of " + nameBank_Rabbit[msgIn.indexTo] + " ";
+            //SIGNAL TO MAIN OF DEATH
+            msg.from = i; //RABBIT ID IS 0 - MAX RABBIT NUM
+            write(mainPipe[1], &msg, sizeof (Message));
+
+            close(RabbitPipes[i][0]);
+            //close(RabbitPipes[i][1]);
+
+            _exit(EXIT_SUCCESS);
+        }
+        else{
+
+        }
+    }
+
+    //sleep(5);
+
+    int aliveKnights = maxKnightNum;
+    int aliveRabbits = maxRabbitNum;
+    Message msg;
+
+    //while atleast one knight and one rabbit alive, check for a death to end the simulation
+    while(aliveKnights > 0 && aliveRabbits > 0)
+    {
+        if(read(mainPipe[0], &msg, sizeof (Message)) > 0)
+        {
+            logger.LogToBoth("Detected a Death!");
+            if(msg.from >= maxKnightNum)
+            {
+                logger.LogToBoth("Knight "+to_string(maxRabbitNum - msg.from)+" has fallen.");
+                aliveKnights--;
             }
             else
             {
-                outString += ("Killer Rabbit of " + nameBank_Rabbit[msgIn.index] + " ");
-
-                if(msgIn.type == 0)
-                {
-                    outString += ("throat leaped ");
-                }
-                else if (msgIn.type == 1)
-                {
-                    outString += ("bit ");
-                }
-                else
-                {
-                    outString += ("flying nibbled ");
-                }
-
-                outString += nameBank_Knight[msgIn.indexTo] + " ";
+                logger.LogToBoth("Rabbit " + to_string(msg.from) + " has fallen.");
+                aliveRabbits--;
             }
-
-            outString += "for " + (to_string(msgIn.damage) + " damage!");
         }
+        else{
 
-        logger.LogToBoth("MESSAGE", outString);
+        }
     }
 
+    sleep(2);
+
+    if(aliveKnights != 0)
+    {
+        logger.LogToBoth("VICTORY", "KNIGHTS WIN");
+    }
+    else
+    {
+        logger.LogToBoth("DEFEAT", "RABBITS WIN");
+    }
+
+    msg.damage = -5;
+
+    write(loggerPipe[1], &msg, sizeof (Message));
 
 
+    logger.CloseFile();
+
+    int status;
+
+    //for(int i = 0; i < maxRabbitNum + maxKnightNum + 1; i ++)
+    //{
+    //    wait(&status);
+    //}
+
+    close(mainPipe[0]);
+    close(mainPipe[1]);
+
+    kill(0,SIGTERM);
+
+    return 0;
 }
+
+
+//CODE FOR THE LOGGER
+void LoggerProcess()
+{
+    bool running = true;
+
+    Message msg;
+
+    while(running)
+    {
+        if(read(loggerPipe[0], &msg, sizeof (Message)) > 0)
+        {
+
+            if(msg.damage == -5)
+            {
+                logger.LogToBoth("Exit switch activated");
+                break;
+            }
+
+            if(msg.from <= maxRabbitNum)
+            {
+                //Rabbit rabbit;
+                //rabbit.SetName(msg.from);
+                //logger.Log(rabbit.GetName() + " received: Type:" + to_string(msg.type) + " Damage: " + to_string(msg.damage));
+
+                logger.LogToBoth("I am rabbit " + to_string(msg.from) + " and I received " + to_string(msg.damage) + " damage");
+            }else
+            {
+                //Knight knight;
+                //knight.SetName(msg.from - maxRabbitNum -1);
+                //logger.Log(knight.GetName() + " received: Type:" + to_string(msg.type) + " Damage: " + to_string(msg.damage));
+
+                logger.LogToBoth("I am knight " + to_string(msg.from - maxRabbitNum) + " and I received " + to_string(msg.damage) + " damage");
+            }
+        }
+
+     }
+
+    close(loggerPipe[0]);
+    close(loggerPipe[1]);
+    _exit(EXIT_SUCCESS);
+}
+
+
 
 
 /**
