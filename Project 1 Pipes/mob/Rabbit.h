@@ -24,6 +24,7 @@ public:
     Rabbit();
 
     void SetName(int inName);
+    void SetName(string inName);
     string GetName() const;
 
     void SetHealth(int inHealth);

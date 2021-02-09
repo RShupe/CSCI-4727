@@ -25,9 +25,9 @@ Rabbit::Rabbit ()
 {
     SetHealth(100);
     SetAttackRate(5);
-    SetStrongAttackDmg(15);
-    SetWeakAttackDmg(8);
-    SetAOEDamage(10);
+    SetStrongAttackDmg(18);
+    SetWeakAttackDmg(12);
+    SetAOEDamage(15);
 };
 
 /**
@@ -39,6 +39,18 @@ Rabbit::Rabbit ()
 void Rabbit::SetName(int inName)
 {
     string temp = "Killer Rabbit of " + nameBank_Rabbit[inName];
+    rName = temp;
+}
+
+/**
+ * SetName
+ *
+ * sets the name of the rabbit to the id that is passed in
+ * @param in name id
+ */
+void Rabbit::SetName(string inName)
+{
+    string temp = "Killer Rabbit of " + inName;
     rName = temp;
 }
 

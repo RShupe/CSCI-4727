@@ -27,9 +27,9 @@ Knight::Knight ()
     SetName(0);
     SetHealth(100);
     SetAttackRate(2);
-    SetStrongAttackDmg(10);
-    SetWeakAttackDmg(5);
-    SetAOEDamage(8);
+    SetStrongAttackDmg(15);
+    SetWeakAttackDmg(10);
+    SetAOEDamage(16);
 };
 
 /**
@@ -41,6 +41,17 @@ Knight::Knight ()
 void Knight::SetName(int inName)
 {
     kName = nameBank_Knight[inName];
+}
+
+/**
+ * SetName
+ *
+ * sets the name to the string passed in
+ * @param Name
+ */
+void Knight::SetName(string inName)
+{
+    kName = inName;
 }
 
 /**

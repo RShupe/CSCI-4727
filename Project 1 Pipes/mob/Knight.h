@@ -28,6 +28,7 @@ public:
 
     void SetName(int i);
     string GetName() const;
+    void SetName(string inName);
 
     void SetHealth(int inHealth);
     int GetHealth() const;
