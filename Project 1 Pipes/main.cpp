@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
 //	File Name:                      Main.cpp
-//	Description:                    This is the driver for the program (i tried)
+//	Description:                    This is the driver for the program
 //	Author:                         Ryan Shupe, East Tennessee State University
 //  Email:                          shuper@etsu.edu
 //	Created:                        Friday January 30, 2021
@@ -15,10 +15,7 @@
 #include <unistd.h>
 #include <vector>
 #include <fcntl.h>
-#include <chrono>
-#include <sstream>
 #include <lastlog.h>
-
 #include "lib/Logger.h"
 #include "mob/Knight.h"
 #include "mob/Rabbit.h"
@@ -185,7 +182,7 @@ void LoggerProcess(int loggerPipe[2])
             if(msg.damage == -5 && msg.type == -5 && msg.from == -5)
             {
                 logger.Log("Logger Kill switch activated.");
-                logger.Log("Output saved to file.");
+                logger.Log("Finishing processing.. \nSaving to File and Closing Program..");
                 close(loggerPipe[0]);
                 _Exit(0);
             }
@@ -439,23 +436,27 @@ void LoggerProcess(int loggerPipe[2])
 void KnightProcess(int KnightPipe[2], int RabbitPipes[][2], int mainPipe[2], int loggerPipe[2], int knightNum)
 {
     //logger.Log("This is the Knight Process " + to_string(knightNum));
+    close(KnightPipe[1]);
     close(loggerPipe[0]);
+    for(int i = 0; i < maxRabbitNum; i ++)
+    {
+        close(RabbitPipes[i][0]);
+    }
+
     srand(time(NULL) ^ getpid());
-    Message msg;
-    Knight knight;
+    Message msg; //msg object to hold a message
+    Knight knight; //knight object for obvious reasons
 
-
-    int currentRabbit = 0;
+    int currentRabbit = 0; //the current rabbit the knight is attacking
     while(knight.GetHealth() > 0 || currentRabbit > maxRabbitNum)
     {
         sleep(.2);
-
         //RECEIVE ATTACK
         if(read(KnightPipe[0], &msg, sizeof (Message)) > 0)
         {
             if(msg.damage == 0 && msg.type == 0)
             {
-
+                //this is to make the knight start attacking init
             }
             else if (msg.type == - 10)
             {
@@ -464,12 +465,11 @@ void KnightProcess(int KnightPipe[2], int RabbitPipes[][2], int mainPipe[2], int
             else
             {
                 knight.SetHealth(knight.GetHealth() - msg.damage);
-                //logger.Log("Knight Health: " + to_string(knight.GetHealth()));
                 write(loggerPipe[1], &msg, sizeof (Message));
 
                 if(knight.GetHealth() <= 0)
                 {
-                    break;
+                    break; //end the loop here is the damage is too much
                 }
             }
 
@@ -498,11 +498,18 @@ void KnightProcess(int KnightPipe[2], int RabbitPipes[][2], int mainPipe[2], int
 
     }
 
+    //Write Death message for the main process to handle
     msg.from = knightNum + maxRabbitNum;
     msg.type = 0;
     msg.damage = - 1;
     write(mainPipe[1], &msg, sizeof (Message));
 
+    //close used pipe ends
+    for(int i = 0; i < maxRabbitNum; i ++)
+    {
+        close(RabbitPipes[i][1]);
+    }
+    close(KnightPipe[0]);
     close(mainPipe[1]);
     close(mainPipe[0]);
     close(loggerPipe[1]);
@@ -522,25 +529,27 @@ void KnightProcess(int KnightPipe[2], int RabbitPipes[][2], int mainPipe[2], int
  */
 void RabbitProcess(int KnightPipes[][2], int RabbitPipe[2], int mainPipe[2], int loggerPipe[2], int rabbitNum)
 {
-    //logger.Log("This is the Rabbit Process " + to_string(rabbitNum));
     close(loggerPipe[0]);
     close(RabbitPipe[1]);
+    for(int i = 0; i < maxKnightNum; i ++)
+    {
+        close(KnightPipes[i][0]);
+    }
     srand(time(NULL) ^ getpid());
-    Message msg;
-    Rabbit rabbit;
+    Message msg; //message object to hold message
+    Rabbit rabbit; //rabbit object for obvious reasons
 
-    int currentKnight = 0;
+    int currentKnight = 0; //the current knight that the rabbit is attacking
 
     while(rabbit.GetHealth() > 0 || currentKnight < maxKnightNum)
     {
         sleep(.2);
-
         //RECEIVE ATTACK
         if(read(RabbitPipe[0], &msg, sizeof (Message)) > 0)
         {
             if(msg.damage == 0 && msg.type == 0)
             {
-
+                //this is to make the rabbit start attacking
             }
             else if(msg.type == -10)
             {
@@ -549,12 +558,11 @@ void RabbitProcess(int KnightPipes[][2], int RabbitPipe[2], int mainPipe[2], int
             else
             {
                 rabbit.SetHealth(rabbit.GetHealth() - msg.damage);
-                //logger.Log("Rabbit Health: " + to_string(rabbit.GetHealth()));
                 write(loggerPipe[1], &msg, sizeof (Message));
 
                 if(rabbit.GetHealth() <= 0)
                 {
-                    break;
+                    break; //end the loop here if the damage is too much
                 }
             }
 
@@ -583,15 +591,19 @@ void RabbitProcess(int KnightPipes[][2], int RabbitPipe[2], int mainPipe[2], int
         };
 
     }
-    //logger.Log("Rabbit has died peacefully");
 
+    //write the death message to the main process
     msg.from = rabbitNum;
     msg.type = 0;
     msg.damage = - 1;
     write(mainPipe[1], &msg, sizeof (Message));
 
+    //close used ends
+    for(int i = 0; i < maxKnightNum; i ++)
+    {
+        close(KnightPipes[i][1]);
+    }
     close(RabbitPipe[0]);
-
     close(mainPipe[1]);
     close(mainPipe[0]);
     close(loggerPipe[1]);
@@ -611,6 +623,14 @@ void RabbitProcess(int KnightPipes[][2], int RabbitPipe[2], int mainPipe[2], int
 void MainProcess(int KnightPipes[][2], int RabbitPipes[][2], int mainPipe[2], int loggerPipe[2])
 {
     //logger.Log("This is the main process.");
+    for(int i = 0; i < maxKnightNum; i ++)
+    {
+        close(KnightPipes[i][0]);
+    }
+    for(int i = 0; i < maxRabbitNum; i ++)
+    {
+        close(KnightPipes[i][0]);
+    }
     close(loggerPipe[0]);
 
     Message msg;
@@ -687,6 +707,15 @@ void MainProcess(int KnightPipes[][2], int RabbitPipes[][2], int mainPipe[2], in
     msg.type = -5;
     msg.from = -5;
     write(loggerPipe[1], &msg, sizeof(Message));
+
+    for(int i = 0; i < maxKnightNum; i ++)
+    {
+        close(KnightPipes[i][1]);
+    }
+    for(int i = 0; i < maxRabbitNum; i ++)
+    {
+        close(KnightPipes[i][1]);
+    }
 
     close(loggerPipe[1]);
 }
