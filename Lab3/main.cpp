@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
     memory = memory * 2097152;
     memory = memory / 4;
 
-    int* memoryArray = new int[memory];
+    int *memoryArray = malloc(5 * sizeof *memory);
 
 
     int i = 0;

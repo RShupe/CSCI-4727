@@ -2,6 +2,20 @@
 <project version="4">
   <component name="PublishConfigData" remoteFilesAllowedToDisappearOnAutoupload="false">
     <serverData>
+      <paths name="Remote Pi (54aab3c6-9c6c-4afb-bbfc-afc21863ed21)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/tmp/tmp.x3IXxZlv1Q" local="$PROJECT_DIR$" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="Remote Pi (7dba69e4-a9d6-4f9e-a29f-20003ffd7652)">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
       <paths name="Remote Pi (936ccc1e-5902-4a69-bfdb-5d9ed14ce3d8)">
         <serverdata>
           <mappings>

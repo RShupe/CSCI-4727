@@ -2,6 +2,26 @@
 <project version="4">
   <component name="PublishConfigData" remoteFilesAllowedToDisappearOnAutoupload="false">
     <serverData>
+      <paths name="Remote Pi (54aab3c6-9c6c-4afb-bbfc-afc21863ed21)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/tmp/tmp.nWTpv8vDJL" local="$PROJECT_DIR$" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-remote-pi" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
+      <paths name="Remote Pi (7dba69e4-a9d6-4f9e-a29f-20003ffd7652)">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/tmp/tmp.6NvRYkNp5x" local="$PROJECT_DIR$" />
+          </mappings>
+          <excludedPaths>
+            <excludedPath local="true" path="$PROJECT_DIR$/cmake-build-debug-remote-pi" />
+          </excludedPaths>
+        </serverdata>
+      </paths>
       <paths name="Remote Pi (936ccc1e-5902-4a69-bfdb-5d9ed14ce3d8)">
         <serverdata>
           <mappings>
