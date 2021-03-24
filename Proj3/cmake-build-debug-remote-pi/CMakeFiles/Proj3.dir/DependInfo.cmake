@@ -4,11 +4,11 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/tmp/tmp.bNtoGCCKPI/Address.cpp" "/tmp/tmp.bNtoGCCKPI/cmake-build-debug-remote-pi/CMakeFiles/Proj3.dir/Address.cpp.o"
-  "/tmp/tmp.bNtoGCCKPI/Cache.cpp" "/tmp/tmp.bNtoGCCKPI/cmake-build-debug-remote-pi/CMakeFiles/Proj3.dir/Cache.cpp.o"
-  "/tmp/tmp.bNtoGCCKPI/PageTable.cpp" "/tmp/tmp.bNtoGCCKPI/cmake-build-debug-remote-pi/CMakeFiles/Proj3.dir/PageTable.cpp.o"
-  "/tmp/tmp.bNtoGCCKPI/TLB.cpp" "/tmp/tmp.bNtoGCCKPI/cmake-build-debug-remote-pi/CMakeFiles/Proj3.dir/TLB.cpp.o"
-  "/tmp/tmp.bNtoGCCKPI/main.cpp" "/tmp/tmp.bNtoGCCKPI/cmake-build-debug-remote-pi/CMakeFiles/Proj3.dir/main.cpp.o"
+  "/tmp/proj3/Address.cpp" "/tmp/proj3/cmake-build-debug-remote-pi/CMakeFiles/Proj3.dir/Address.cpp.o"
+  "/tmp/proj3/Cache.cpp" "/tmp/proj3/cmake-build-debug-remote-pi/CMakeFiles/Proj3.dir/Cache.cpp.o"
+  "/tmp/proj3/PageTable.cpp" "/tmp/proj3/cmake-build-debug-remote-pi/CMakeFiles/Proj3.dir/PageTable.cpp.o"
+  "/tmp/proj3/TLB.cpp" "/tmp/proj3/cmake-build-debug-remote-pi/CMakeFiles/Proj3.dir/TLB.cpp.o"
+  "/tmp/proj3/main.cpp" "/tmp/proj3/cmake-build-debug-remote-pi/CMakeFiles/Proj3.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
