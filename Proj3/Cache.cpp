@@ -38,6 +38,66 @@ bool Cache::CheckCache (int index)
 
 };
 /**
+ * SetPolicy
+ *
+ * sets the policy
+ * @param policynumber
+ */
+void Cache::SetPolicy(int inPolicy)
+{
+    if(inPolicy == 0)
+    {
+
+    }else
+    {
+
+    }
+
+};
+
+/**
+ * SetOffset
+ *
+ * sets the Offset to the int passed in
+ * @param Offset
+ */
+void Cache::SetNumOffsetBits(int inOffset)
+{
+    offsetBits = inOffset;
+};
+/**
+ * GetOffset
+ *
+ * Returns the Offset
+ * @returns Offset
+ */
+int Cache::GetNumOffsetBits() const
+{
+    return offsetBits;
+};
+
+/**
+ * SetIndex
+ *
+ * sets the Index to the int passed in
+ * @param Index
+ */
+void Cache::SetNumIndexBits(int inIndex)
+{
+    indexBits = inIndex;
+};
+/**
+ * GetIndex
+ *
+ * Returns the Index
+ * @returns Index
+ */
+int Cache::GetNumIndexBits() const
+{
+    return indexBits;
+};
+
+/**
  * SetNumberOfSets
  *
  * sets the NumberOfSets to the int passed in

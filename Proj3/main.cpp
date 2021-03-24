@@ -13,6 +13,7 @@
 #include <algorithm>
 #include <sstream>
 #include <string>
+#include <tgmath.h>
 
 
 #include "TLB.h"
@@ -51,6 +52,9 @@ TLB tlb;
 PageTable pageTable;
 Cache L1;
 Cache L2;
+bool isVirtual = true;
+bool TLBEnabled;
+bool L2Enabled;
 
 
 int main(int argc, char *argv[])
@@ -58,11 +62,22 @@ int main(int argc, char *argv[])
     using namespace std;
     CheckArg(argc, argv);
 
-    string header =
+    string header1 =
             "Virtual  Virt.  Page TLB    TLB TLB  PT   Phys        DC  DC          L2  L2  \n"
             "Address  Page # Off  Tag    Ind Res. Res. Pg # DC Tag Ind Res. L2 Tag Ind Res.\n"
             "-------- ------ ---- ------ --- ---- ---- ---- ------ --- ---- ------ --- ----";
-    cout << header << endl;
+
+    string header2 =
+            "Physical Virt.  Page TLB    TLB TLB  PT   Phys        DC  DC          L2  L2  \n"
+            "Address  Page # Off  Tag    Ind Res. Res. Pg # DC Tag Ind Res. L2 Tag Ind Res.\n"
+            "-------- ------ ---- ------ --- ---- ---- ---- ------ --- ---- ------ --- ----";
+
+    if(isVirtual)
+    {
+        cout << header1 << endl;
+    }else{
+        cout << header2 << endl;
+    }
 
     for(int i = 0; i < 9; i++)
     {
@@ -145,20 +160,30 @@ void FillConfiguration(std::string fileName)
             getline (MyReadFile, text);
             string temp;
             temp = text.substr(text.find(":") + 1);
+            int numberOfSets = stoi(temp);;
             cout << "Data TLB contains " << temp << " sets." << endl;
+
+            int index = log2(stoi(temp));
 
             getline (MyReadFile, text);
             temp = text.substr(text.find(":") + 1);
             cout << "Each set contains " << temp << " entries." << endl;
+            int entries = stoi(temp);
 
-            cout << "Number of bits used for the index is " << 99 << ".\n" << endl;
-        }else if(temp == "Page Table configuration")
+            //tlb = TLB();
+
+
+            cout << "Number of bits used for the index is " << index << ".\n" << endl;
+        }
+        else if(temp == "Page Table configuration")
         {
             cout << "Page Table configuration" << endl;
             getline(MyReadFile, text);
             string temp;
             temp = text.substr(text.find(":") + 1);
             cout << "Number of virtual pages: " << temp << endl;
+
+            int index = log2(stoi(temp));
 
             getline(MyReadFile, text);
             temp = text.substr(text.find(":") + 1);
@@ -168,70 +193,101 @@ void FillConfiguration(std::string fileName)
             temp = text.substr(text.find(":") + 1);
             cout << "Each page contains " << temp << " bytes." << endl;
 
-            cout << "Number of bits used for the index is: " << 99 << endl;
-            cout << "Number of bits used for the page offset is: " << 99 << "\n"<< endl;
+            int offset = log2(stoi(temp));
 
-        }else if(temp == "Data Cache configuration")
+            cout << "Number of bits used for the index is: " << index << endl;
+            cout << "Number of bits used for the page offset is: " << offset << "\n"<< endl;
+
+        }
+        else if(temp == "Data Cache configuration")
         {
             cout << "Data Cache configuration" << endl;
+            L1 = Cache();
+
             getline(MyReadFile, text);
             string temp;
             temp = text.substr(text.find(":") + 1);
             temp.erase(remove(temp.begin(), temp.end(), ' '), temp.end());
             cout << "D-Cache contains " << temp << " sets."<< endl;
+            L1.SetNumberOfSets(stoi(temp));
+
+            L1.SetNumIndexBits(log2(stoi(temp)));
 
             getline(MyReadFile, text);
             temp = text.substr(text.find(":") + 1);
             temp.erase(remove(temp.begin(), temp.end(), ' '), temp.end());
             cout << "Each set contains " << temp << " entries."<< endl;
+            L1.SetSetSize(stoi(temp));
 
             getline(MyReadFile, text);
             temp = text.substr(text.find(":") + 1);
             temp.erase(remove(temp.begin(), temp.end(), ' '), temp.end());
             cout << "Each line is " << temp << " bytes."<< endl;
+            L1.SetLineSize(stoi(temp));
+
+            L1.SetNumOffsetBits(log2(stoi(temp)));
 
             getline(MyReadFile, text);
             temp = text.substr(text.find(":") + 1);
             temp.erase(remove(temp.begin(), temp.end(), ' '), temp.end());
             if(temp == "y")
             {
-                cout << "The cache uses a write-through policy.\n" << endl;
+                cout << "The cache uses a write-through policy." << endl;
+                L1.SetPolicy(0);
             }
             else
             {
-                cout << "The cache uses a write-allocate and write-back policy.\n" << endl;
+                cout << "The cache uses a write-allocate and write-back policy." << endl;
+                L1.SetPolicy(1);
             }
+
+            cout << "The number of bits used for the index is: " << L1.GetNumIndexBits() << endl;
+            cout << "The number of bits used for the offset is: " << L1.GetNumOffsetBits() <<  "\n" <<endl;
         }
         else if(temp == "L2 Cache configuration")
         {
             cout << "L2 Cache configuration" << endl;
+            L2 = Cache();
+
             getline(MyReadFile, text);
             string temp;
             temp = text.substr(text.find(":") + 1);
             temp.erase(remove(temp.begin(), temp.end(), ' '), temp.end());
             cout << "L2 Cache contains " << temp << " sets."<< endl;
+            L2.SetNumberOfSets(stoi(temp));
+
+            L2.SetNumIndexBits(log2(stoi(temp)));
 
             getline(MyReadFile, text);
             temp = text.substr(text.find(":") + 1);
             temp.erase(remove(temp.begin(), temp.end(), ' '), temp.end());
             cout << "Each set contains " << temp << " entries."<< endl;
+            L2.SetSetSize(stoi(temp));
 
             getline(MyReadFile, text);
             temp = text.substr(text.find(":") + 1);
             temp.erase(remove(temp.begin(), temp.end(), ' '), temp.end());
             cout << "Each line is " << temp << " bytes."<< endl;
+            L2.SetLineSize(stoi(temp));
+
+            L2.SetNumOffsetBits(log2(stoi(temp)));
 
             getline(MyReadFile, text);
             temp = text.substr(text.find(":") + 1);
             temp.erase(remove(temp.begin(), temp.end(), ' '), temp.end());
             if(temp == "y")
             {
-                cout << "The cache uses a write-through policy.\n" << endl;
+                cout << "The cache uses a write-through policy." << endl;
+                L2.SetPolicy(0);
             }
             else
             {
-                cout << "The cache uses a write-allocate and write-back policy.\n" << endl;
+                cout << "The cache uses a write-allocate and write-back policy." << endl;
+                L2.SetPolicy(1);
             }
+
+            cout << "The number of bits used for the index is: " << L2.GetNumIndexBits() << endl;
+            cout << "The number of bits used for the offset is: " << L2.GetNumOffsetBits() <<  "\n" <<endl;
 
             getline(MyReadFile, text);
 
@@ -240,10 +296,12 @@ void FillConfiguration(std::string fileName)
             temp.erase(remove(temp.begin(), temp.end(), ' '), temp.end());
             if(temp == "y")
             {
+                isVirtual = true;
                 cout << "The addresses read in are virtual addresses." <<  endl;
             }
             else
             {
+                isVirtual = false;
                 cout << "The addresses read in are physical addresses." << endl;
             }
 
@@ -253,10 +311,12 @@ void FillConfiguration(std::string fileName)
             if(temp == "y")
             {
                 cout << "TLB is enabled." <<  endl;
+                TLBEnabled = true;
             }
             else
             {
                 cout << "TLB is disabled." <<  endl;
+                TLBEnabled = false;
             }
 
             getline(MyReadFile, text);
@@ -265,10 +325,12 @@ void FillConfiguration(std::string fileName)
             if(temp == "y")
             {
                 cout << "L2 Cache is enabled." << endl;
+                L2Enabled = true;
             }
             else
             {
                 cout << "L2 Cache is disabled." << endl;
+                L2Enabled = true;
             }
             cout << "--------------------------------------------\n" << endl;
         }

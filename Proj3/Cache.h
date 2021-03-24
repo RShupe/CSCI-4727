@@ -17,6 +17,8 @@ private:
     int numberOfSets;
     int setSize;
     int lineSize;
+    int offsetBits;
+    int indexBits;
     bool writeThroughEnabled;
 public:
     Cache();
@@ -25,7 +27,11 @@ public:
     void Evict ();
     void Evict (int index);
     bool CheckCache (int index);
-
+    void SetPolicy(int inPolicy);
+    int GetNumOffsetBits() const;
+    void SetNumOffsetBits(int inOffset);
+    int GetNumIndexBits() const;
+    void SetNumIndexBits(int inIndex);
     void SetNumberOfSets(int inNumberOfSets);
     int GetNumberOfSets() const;
     void SetSetSize(int inSetSize);
