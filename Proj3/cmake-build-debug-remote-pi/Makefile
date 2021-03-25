@@ -150,32 +150,59 @@ Address.cpp.s:
 	$(MAKE) -f CMakeFiles/Proj3.dir/build.make CMakeFiles/Proj3.dir/Address.cpp.s
 .PHONY : Address.cpp.s
 
-Cache.o: Cache.cpp.o
+L1Cache.o: L1Cache.cpp.o
 
-.PHONY : Cache.o
+.PHONY : L1Cache.o
 
 # target to build an object file
-Cache.cpp.o:
-	$(MAKE) -f CMakeFiles/Proj3.dir/build.make CMakeFiles/Proj3.dir/Cache.cpp.o
-.PHONY : Cache.cpp.o
+L1Cache.cpp.o:
+	$(MAKE) -f CMakeFiles/Proj3.dir/build.make CMakeFiles/Proj3.dir/L1Cache.cpp.o
+.PHONY : L1Cache.cpp.o
 
-Cache.i: Cache.cpp.i
+L1Cache.i: L1Cache.cpp.i
 
-.PHONY : Cache.i
+.PHONY : L1Cache.i
 
 # target to preprocess a source file
-Cache.cpp.i:
-	$(MAKE) -f CMakeFiles/Proj3.dir/build.make CMakeFiles/Proj3.dir/Cache.cpp.i
-.PHONY : Cache.cpp.i
+L1Cache.cpp.i:
+	$(MAKE) -f CMakeFiles/Proj3.dir/build.make CMakeFiles/Proj3.dir/L1Cache.cpp.i
+.PHONY : L1Cache.cpp.i
 
-Cache.s: Cache.cpp.s
+L1Cache.s: L1Cache.cpp.s
 
-.PHONY : Cache.s
+.PHONY : L1Cache.s
 
 # target to generate assembly for a file
-Cache.cpp.s:
-	$(MAKE) -f CMakeFiles/Proj3.dir/build.make CMakeFiles/Proj3.dir/Cache.cpp.s
-.PHONY : Cache.cpp.s
+L1Cache.cpp.s:
+	$(MAKE) -f CMakeFiles/Proj3.dir/build.make CMakeFiles/Proj3.dir/L1Cache.cpp.s
+.PHONY : L1Cache.cpp.s
+
+L2Cache.o: L2Cache.cpp.o
+
+.PHONY : L2Cache.o
+
+# target to build an object file
+L2Cache.cpp.o:
+	$(MAKE) -f CMakeFiles/Proj3.dir/build.make CMakeFiles/Proj3.dir/L2Cache.cpp.o
+.PHONY : L2Cache.cpp.o
+
+L2Cache.i: L2Cache.cpp.i
+
+.PHONY : L2Cache.i
+
+# target to preprocess a source file
+L2Cache.cpp.i:
+	$(MAKE) -f CMakeFiles/Proj3.dir/build.make CMakeFiles/Proj3.dir/L2Cache.cpp.i
+.PHONY : L2Cache.cpp.i
+
+L2Cache.s: L2Cache.cpp.s
+
+.PHONY : L2Cache.s
+
+# target to generate assembly for a file
+L2Cache.cpp.s:
+	$(MAKE) -f CMakeFiles/Proj3.dir/build.make CMakeFiles/Proj3.dir/L2Cache.cpp.s
+.PHONY : L2Cache.cpp.s
 
 PageTable.o: PageTable.cpp.o
 
@@ -270,9 +297,12 @@ help:
 	@echo "... Address.o"
 	@echo "... Address.i"
 	@echo "... Address.s"
-	@echo "... Cache.o"
-	@echo "... Cache.i"
-	@echo "... Cache.s"
+	@echo "... L1Cache.o"
+	@echo "... L1Cache.i"
+	@echo "... L1Cache.s"
+	@echo "... L2Cache.o"
+	@echo "... L2Cache.i"
+	@echo "... L2Cache.s"
 	@echo "... PageTable.o"
 	@echo "... PageTable.i"
 	@echo "... PageTable.s"

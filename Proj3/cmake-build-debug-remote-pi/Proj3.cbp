@@ -90,10 +90,16 @@
 		<Unit filename="/tmp/proj3/Address.h">
 			<Option target="Proj3"/>
 		</Unit>
-		<Unit filename="/tmp/proj3/Cache.cpp">
+		<Unit filename="/tmp/proj3/L1Cache.cpp">
 			<Option target="Proj3"/>
 		</Unit>
-		<Unit filename="/tmp/proj3/Cache.h">
+		<Unit filename="/tmp/proj3/L1Cache.h">
+			<Option target="Proj3"/>
+		</Unit>
+		<Unit filename="/tmp/proj3/L2Cache.cpp">
+			<Option target="Proj3"/>
+		</Unit>
+		<Unit filename="/tmp/proj3/L2Cache.h">
 			<Option target="Proj3"/>
 		</Unit>
 		<Unit filename="/tmp/proj3/PageTable.cpp">

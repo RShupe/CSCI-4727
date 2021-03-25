@@ -14,15 +14,18 @@
 #include <sstream>
 #include <string>
 #include <tgmath.h>
+#include <iostream>
+#include <tuple>
 
 
 #include "TLB.h"
 #include "PageTable.h"
 #include "Address.h"
-#include "Cache.h"
+#include "L1Cache.h"
+#include "L2Cache.h"
 
 void CheckArg(int argc, char *argv[]);
-std::vector<std::vector<int>> ReadFileAndFillVars(std::string fileName);
+std::vector<std::vector<int>> ReadAddresses(std::string fileName);
 void FillConfiguration(std::string fileName);
 
 void RunSimulation();
@@ -50,17 +53,26 @@ std::vector<std::vector<int>> addresses;
 
 TLB tlb;
 PageTable pageTable;
-Cache L1;
-Cache L2;
+L1Cache L1;
+L2Cache L2;
 bool isVirtual = true;
 bool TLBEnabled;
 bool L2Enabled;
 
-
+/**
+ * The main method that drives the entire program
+ */
 int main(int argc, char *argv[])
 {
     using namespace std;
     CheckArg(argc, argv);
+    RunSimulation();
+    return 0;
+}
+
+void RunSimulation()
+{
+    using namespace std;
 
     string header1 =
             "Virtual  Virt.  Page TLB    TLB TLB  PT   Phys        DC  DC          L2  L2  \n"
@@ -85,63 +97,26 @@ int main(int argc, char *argv[])
 
         int address = addresses[i][1];
 
-        printf("%08x %6x %4x %6x %3x %4s %4s %4x %6x %3x %4s %6x %3x %4s", address, 1,2,3,4,"hit","miss",7,8,9,"hit",3,1,"miss");
+
+        int L1Index, L1Tag;
+        tie(L1Index, L1Tag) = L1.Insert(address);
+
+        int L2Index, L2Tag;
+        tie(L2Index, L2Tag) = L2.Insert(address);
+
+
+        printf("%08x %6x %4x %6x %3x %4s %4s %4x %6x %3x %4s %6x %3x %4s", address, 0, 0, 0, 0, " ", " ", 0,
+               L1Tag, L1Index," ", L2Tag, L2Index, " ");
+
 
         cout << endl;
     }
-
-    return 0;
-}
-
-void RunSimulation()
-{
-
 }
 
 
-
-std::vector<std::vector<int>> ReadFileAndFillVars(std::string fileName)
-{
-    using namespace std;
-    // Read from the text file
-    ifstream MyReadFile(fileName);
-
-    int rows = count(istreambuf_iterator<char>(MyReadFile), istreambuf_iterator<char>(), '\n');
-    vector<vector<int>> addresses(rows, vector<int> (2));
-    ifstream MyReadFile2(fileName);
-    int i = 0;
-    // Use a while loop together with the getline() function to read the file line by line
-    while (getline (MyReadFile2, fileName)) {
-        // Output the text from the file
-        if(fileName[0] == 'R')
-        {
-            addresses[i][0] = 0; //store read
-            string temp(fileName.begin() + 2, fileName.end());
-            int x;
-            std::stringstream ss;
-            ss << std::hex << temp;
-            ss >> x;
-            addresses[i][1] = x;
-            i++;
-        }
-        else if(fileName[0] == 'W')
-        {
-            addresses[i][0] = 1; //store write
-            string temp(fileName.begin() + 2, fileName.end());
-            int x;
-            std::stringstream ss;
-            ss << std::hex << temp;
-            ss >> x;
-            addresses[i][1] = x;
-            i++;
-        }
-    }
-
-    // Close the file
-    MyReadFile2.close();
-    return addresses;
-}
-
+/**
+ * Fills in the objects, as well as finding index and offset bits
+ */
 void FillConfiguration(std::string fileName)
 {
     using namespace std;
@@ -202,13 +177,13 @@ void FillConfiguration(std::string fileName)
         else if(temp == "Data Cache configuration")
         {
             cout << "Data Cache configuration" << endl;
-            L1 = Cache();
+            L1 = L1Cache();
 
             getline(MyReadFile, text);
             string temp;
             temp = text.substr(text.find(":") + 1);
             temp.erase(remove(temp.begin(), temp.end(), ' '), temp.end());
-            cout << "D-Cache contains " << temp << " sets."<< endl;
+            cout << "DCache contains " << temp << " sets."<< endl;
             L1.SetNumberOfSets(stoi(temp));
 
             L1.SetNumIndexBits(log2(stoi(temp)));
@@ -243,11 +218,13 @@ void FillConfiguration(std::string fileName)
 
             cout << "The number of bits used for the index is: " << L1.GetNumIndexBits() << endl;
             cout << "The number of bits used for the offset is: " << L1.GetNumOffsetBits() <<  "\n" <<endl;
+
+            L1.InitCache();
         }
         else if(temp == "L2 Cache configuration")
         {
             cout << "L2 Cache configuration" << endl;
-            L2 = Cache();
+            L2 = L2Cache();
 
             getline(MyReadFile, text);
             string temp;
@@ -329,14 +306,62 @@ void FillConfiguration(std::string fileName)
             }
             else
             {
-                cout << "L2 Cache is disabled." << endl;
+                cout << "L2 L1Cache is disabled." << endl;
                 L2Enabled = true;
             }
             cout << "--------------------------------------------\n" << endl;
+
+            L2.InitCache();
         }
     }
     MyReadFile.close();
 }
+
+/**
+ * Reads in the addresses from the file and whether it is a read or a write
+ */
+std::vector<std::vector<int>> ReadAddresses(std::string fileName)
+{
+    using namespace std;
+    // Read from the text file
+    ifstream MyReadFile(fileName);
+
+    int rows = count(istreambuf_iterator<char>(MyReadFile), istreambuf_iterator<char>(), '\n');
+    vector<vector<int>> addresses(rows, vector<int> (2));
+    ifstream MyReadFile2(fileName);
+    int i = 0;
+    // Use a while loop together with the getline() function to read the file line by line
+    while (getline (MyReadFile2, fileName)) {
+        // Output the text from the file
+        if(fileName[0] == 'R')
+        {
+            addresses[i][0] = 0; //store read
+            string temp(fileName.begin() + 2, fileName.end());
+            int x;
+            std::stringstream ss;
+            ss << std::hex << temp;
+            ss >> x;
+            addresses[i][1] = x;
+            i++;
+        }
+        else if(fileName[0] == 'W')
+        {
+            addresses[i][0] = 1; //store write
+            string temp(fileName.begin() + 2, fileName.end());
+            int x;
+            std::stringstream ss;
+            ss << std::hex << temp;
+            ss >> x;
+            addresses[i][1] = x;
+            i++;
+        }
+    }
+
+    // Close the file
+    MyReadFile2.close();
+    return addresses;
+}
+
 
 /**
  * checks to see if a file name was passed in
@@ -353,6 +378,6 @@ void CheckArg(int argc, char *argv[])
     else
     {
         FillConfiguration(argv[1]);
-        addresses = ReadFileAndFillVars(argv[2]);
+        addresses = ReadAddresses(argv[2]);
     }
 }

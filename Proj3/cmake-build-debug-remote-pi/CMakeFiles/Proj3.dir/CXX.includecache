@@ -6,9 +6,13 @@
 
 #IncludeRegexTransform: 
 
-/tmp/tmp.bNtoGCCKPI/main.cpp
-iostream
+/tmp/proj3/Cache.cpp
+vector
 -
-fstream
+tuple
 -
+Cache.h
+/tmp/proj3/Cache.h
+
+/tmp/proj3/Cache.h
 

@@ -8,21 +8,33 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#include "Address.h"
+/**
+ #include "Address.h"
 
-using namespace std;
 
-
-Address::Address ()
+Address::Address (int inAddr)
 {
+    address = inAddr;
+}
+Address::Address (int inAddr, L1Cache inL1)
+{
+    address = inAddr;
+    cpyL1 = inL1;
 
+    CalculateL1BlockIndex();
+}
+Address::Address (int inAddr, L1Cache inL1, L1Cache inL2)
+{
+    address = inAddr;
+    cpyL1 = inL1;
+    cpyL2 = inL2;
 }
 /**
  * CalculatePageOffset
  *
  * sets the PageOffset
  * @returns PageOffset
- */
+
 int Address::CalculatePageOffset()
 {
 
@@ -32,7 +44,7 @@ int Address::CalculatePageOffset()
  *
  * sets the PageOffset to the int passed in
  * @param Name
- */
+
 void Address::SetPageOffset(int inPageOffset)
 {
     pageOffset = inPageOffset;
@@ -43,7 +55,7 @@ void Address::SetPageOffset(int inPageOffset)
  *
  * Returns the PageOffset
  * @returns PageOffset
- */
+ *
 int Address::GetPageOffset() const
 {
     return pageOffset;
@@ -53,7 +65,7 @@ int Address::GetPageOffset() const
  *
  * sets the TLBIndex
  * @returns TLBIndex
- */
+ *
 int Address::CalculateTLBIndex()
 {
 
@@ -63,7 +75,7 @@ int Address::CalculateTLBIndex()
  *
  * sets the TLBIndex to the int passed in
  * @param TLBIndex
- */
+ *
 void Address::SetTLBIndex(int inTLBIndex)
 {
     tlbIndex = inTLBIndex;
@@ -74,7 +86,7 @@ void Address::SetTLBIndex(int inTLBIndex)
  *
  * Returns the TLBIndex
  * @returns TLBIndex
- */
+ *
 int Address::GetTLBIndex() const
 {
     return tlbIndex;
@@ -84,7 +96,7 @@ int Address::GetTLBIndex() const
  *
  * sets the VirutalPageNumber
  * @returns VirutalPageNumber
- */
+ *
 int Address::CalculateVirutalPageNumber()
 {
 
@@ -94,7 +106,7 @@ int Address::CalculateVirutalPageNumber()
  *
  * sets the VirutalPageNumber to the int passed in
  * @param VirutalPageNumber
- */
+ *
 void Address::SetVirutalPageNumber(int inVirutalPageNumber)
 {
     virtualPageNumber = inVirutalPageNumber;
@@ -105,79 +117,81 @@ void Address::SetVirutalPageNumber(int inVirutalPageNumber)
  *
  * Returns the VirutalPageNumber
  * @returns VirutalPageNumber
- */
+ *
 int Address::GetVirutalPageNumber() const
 {
     return virtualPageNumber;
 }
 /**
- * CalculateBlockOffset
+ * CalculateL1BlockIndex
  *
- * sets the BlockOffset
- * @returns BlockOffset
- */
-int Address::CalculateBlockOffset()
+ * sets the L1BlockIndex
+ * @returns L1BlockIndex
+ *
+int Address::CalculateL1BlockIndex()
+{
+    int blockAddress = address >> cpyL1.GetNumOffsetBits();
+
+    setL1BlockIndex((blockAddress >> 0) & ((1 << cpyL1.GetNumIndexBits())-1));
+};
+/**
+ * CalculateL2BlockIndex
+ *
+ * sets the L2BlockIndex
+ * @returns L2BlockIndex
+ *
+int Address::CalculateL2BlockIndex()
 {
 
 };
 /**
- * SetBlockOffset
+ * SetL1BlockIndex
  *
- * sets the BlockOffset to the int passed in
- * @param BlockOffset
- */
-void Address::setBlockOffset(int inBlockOffset)
+ * sets the L1BlockIndex to the int passed in
+ * @param L1BlockIndex
+ *
+void Address::setL1BlockIndex(int inBlockIndex)
 {
-    blockOffset = inBlockOffset;
+    l1blockIndex = inBlockIndex;
 }
 
 /**
- * GetBlockOffset
+ * GetL1BlockIndex
  *
- * Returns the BlockOffset
- * @returns BlockOffset
- */
-int Address::GetBlockOffset() const
+ * Returns the L1BlocIndex
+ * @returns L1BlockIndex
+ *
+int Address::GetL1BlockIndex() const
 {
-    return blockOffset;
+    return l1blockIndex;
 }
 /**
- * CalculateBlockIndex
+ * SetL2BlockIndex
  *
- * sets the BlockIndex
- * @returns BlockIndex
- */
-int Address::CalculateBlockIndex()
-{
-
-};
-/**
- * SetBlockIndex
+ * sets the L2BlockIndex to the int passed in
+ * @param L2BlockIndex
  *
- * sets the BlockIndex to the int passed in
- * @param BlockIndex
- */
-void Address::setBlockIndex(int inBlockIndex)
+void Address::setL2BlockIndex(int inBlockIndex)
 {
-    blockIndex = inBlockIndex;
+    l2blockIndex = inBlockIndex;
 }
 
 /**
- * GetBlockIndex
+ * GetL2BlockIndex
  *
- * Returns the BlockIndex
- * @returns BlockIndex
- */
-int Address::GetBlockIndex() const
+ * Returns the L2BlockIndex
+ * @returns L2BlockIndex
+ *
+int Address::GetL2BlockIndex() const
 {
-    return blockIndex;
+    return l2blockIndex;
 }
 /**
  * CalculateTag
  *
  * sets the Tag
  * @returns Tag
- */
+ *
 int Address::CalculateTag()
 {
 
@@ -187,7 +201,7 @@ int Address::CalculateTag()
  *
  * sets the Tag to the int passed in
  * @param Tag
- */
+ *
 void Address::setTag(int inTag)
 {
     tag = inTag;
@@ -198,7 +212,7 @@ void Address::setTag(int inTag)
  *
  * Returns the Tag
  * @returns Tag
- */
+ *
 int Address::GetTag() const
 {
     return tag;
@@ -208,7 +222,7 @@ int Address::GetTag() const
  *
  * sets the DirtyBit
  * @returns DirtyBit
- */
+ *
 int Address::CalculateDirtyBit()
 {
 
@@ -219,7 +233,7 @@ int Address::CalculateDirtyBit()
  *
  * sets the DirtyBit to the int passed in
  * @param DirtyBit
- */
+ *
 void Address::setDirtyBit(int inDirtyBit)
 {
     dirtyBit = inDirtyBit;
@@ -230,8 +244,8 @@ void Address::setDirtyBit(int inDirtyBit)
  *
  * Returns the DirtyBit
  * @returns DirtyBit
- */
+ *
 int Address::GetDirtyBit() const
 {
     return dirtyBit;
-}
+}**/

@@ -11,21 +11,28 @@
 #ifndef PROJ3_ADDRESS_H
 #define PROJ3_ADDRESS_H
 
+#include "L1Cache.h"
+using namespace std;
 
 class Address {
 
 private:
     bool isVirtual;
+    int address;
     int pageOffset;
     int virtualPageNumber;
     int tlbIndex;
-    int blockOffset;
+    int l1blockIndex;
+    int l2blockIndex;
     int blockIndex;
     int tag;
     int dirtyBit;
 
 public:
-    Address ();
+    Address (int inAddr);
+    Address (int inAddr, L1Cache inL1);
+    Address (int inAddr, L1Cache* inL1, L1Cache *inL2);
+
     int CalculatePageOffset();
     void SetPageOffset(int inPageOffset);
     int GetPageOffset() const;
@@ -35,9 +42,12 @@ public:
     int CalculateVirutalPageNumber();
     void SetVirutalPageNumber(int inVirutalPageNumber);
     int GetVirutalPageNumber() const;
-    int CalculateBlockOffset();
-    void setBlockOffset(int inBlockOffset);
-    int GetBlockOffset() const;
+    int CalculateL1BlockIndex();
+    int CalculateL2BlockIndex();
+    void setL1BlockIndex(int inBlockOffset);
+    int GetL1BlockIndex() const;
+    void setL2BlockIndex(int inBlockOffset);
+    int GetL2BlockIndex() const;
     int CalculateBlockIndex();
     void setBlockIndex(int inBlockIndex);
     int GetBlockIndex() const;
