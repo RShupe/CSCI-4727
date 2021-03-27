@@ -8,7 +8,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/**
+
  #include "Address.h"
 
 
@@ -16,143 +16,40 @@ Address::Address (int inAddr)
 {
     address = inAddr;
 }
-Address::Address (int inAddr, L1Cache inL1)
-{
-    address = inAddr;
-    cpyL1 = inL1;
 
-    CalculateL1BlockIndex();
-}
-Address::Address (int inAddr, L1Cache inL1, L1Cache inL2)
-{
-    address = inAddr;
-    cpyL1 = inL1;
-    cpyL2 = inL2;
-}
 /**
- * CalculatePageOffset
+ * GetOffset
  *
- * sets the PageOffset
- * @returns PageOffset
-
-int Address::CalculatePageOffset()
+ * Returns the Offset
+ * @returns Offset
+ */
+int Address::GetAddress() const
 {
+    return address;
+}
 
+/**
+ * CalculateBlockIndex
+ *
+ * sets the BlockIndex
+ * @returns BlockIndex
+ */
+void Address::CalculateBlockIndex()
+{
+    int blockAddress = address >> GetNumberBlockOffsetBits();
+
+    SetBlockIndex( (blockAddress >> 0) & ((1 << GetNumberBlockIndexBits())-1));
 };
-/**
- * SetPageOffset
- *
- * sets the PageOffset to the int passed in
- * @param Name
 
-void Address::SetPageOffset(int inPageOffset)
-{
-    pageOffset = inPageOffset;
-}
-
-/**
- * GetPageOffset
- *
- * Returns the PageOffset
- * @returns PageOffset
- *
-int Address::GetPageOffset() const
-{
-    return pageOffset;
-}
-/**
- * CalculateTLBIndex
- *
- * sets the TLBIndex
- * @returns TLBIndex
- *
-int Address::CalculateTLBIndex()
-{
-
-};
-/**
- * SetTLBIndex
- *
- * sets the TLBIndex to the int passed in
- * @param TLBIndex
- *
-void Address::SetTLBIndex(int inTLBIndex)
-{
-    tlbIndex = inTLBIndex;
-}
-
-/**
- * GetTLBIndex
- *
- * Returns the TLBIndex
- * @returns TLBIndex
- *
-int Address::GetTLBIndex() const
-{
-    return tlbIndex;
-}
-/**
- * CalculateVirutalPageNumber
- *
- * sets the VirutalPageNumber
- * @returns VirutalPageNumber
- *
-int Address::CalculateVirutalPageNumber()
-{
-
-};
-/**
- * SetVirutalPageNumber
- *
- * sets the VirutalPageNumber to the int passed in
- * @param VirutalPageNumber
- *
-void Address::SetVirutalPageNumber(int inVirutalPageNumber)
-{
-    virtualPageNumber = inVirutalPageNumber;
-}
-
-/**
- * GetVirutalPageNumber
- *
- * Returns the VirutalPageNumber
- * @returns VirutalPageNumber
- *
-int Address::GetVirutalPageNumber() const
-{
-    return virtualPageNumber;
-}
-/**
- * CalculateL1BlockIndex
- *
- * sets the L1BlockIndex
- * @returns L1BlockIndex
- *
-int Address::CalculateL1BlockIndex()
-{
-    int blockAddress = address >> cpyL1.GetNumOffsetBits();
-
-    setL1BlockIndex((blockAddress >> 0) & ((1 << cpyL1.GetNumIndexBits())-1));
-};
-/**
- * CalculateL2BlockIndex
- *
- * sets the L2BlockIndex
- * @returns L2BlockIndex
- *
-int Address::CalculateL2BlockIndex()
-{
-
-};
 /**
  * SetL1BlockIndex
  *
  * sets the L1BlockIndex to the int passed in
  * @param L1BlockIndex
- *
-void Address::setL1BlockIndex(int inBlockIndex)
+ */
+void Address::SetBlockIndex(int inBlockIndex)
 {
-    l1blockIndex = inBlockIndex;
+    blockIndex = inBlockIndex;
 }
 
 /**
@@ -160,49 +57,72 @@ void Address::setL1BlockIndex(int inBlockIndex)
  *
  * Returns the L1BlocIndex
  * @returns L1BlockIndex
- *
-int Address::GetL1BlockIndex() const
+ */
+int Address::GetBlockIndex() const
 {
-    return l1blockIndex;
+    return blockIndex;
 }
 /**
- * SetL2BlockIndex
+ * SetL1BlockIndex
  *
- * sets the L2BlockIndex to the int passed in
- * @param L2BlockIndex
- *
-void Address::setL2BlockIndex(int inBlockIndex)
+ * sets the L1BlockIndex to the int passed in
+ * @param L1BlockIndex
+ */
+void Address::SetNumberBlockOffsetBits(int inBlockOffset)
 {
-    l2blockIndex = inBlockIndex;
+    blockOffsetBits = inBlockOffset;
 }
 
 /**
- * GetL2BlockIndex
+ * GetOffset
  *
- * Returns the L2BlockIndex
- * @returns L2BlockIndex
- *
-int Address::GetL2BlockIndex() const
+ * Returns the Offset
+ * @returns Offset
+ */
+int Address::GetNumberBlockOffsetBits() const
 {
-    return l2blockIndex;
+    return blockOffsetBits;
 }
+
+/**
+ * SetL1BlockIndex
+ *
+ * sets the L1BlockIndex to the int passed in
+ * @param L1BlockIndex
+ */
+void Address::SetNumberBlockIndexBits(int inBlockIndex)
+{
+    blockIndexBits = inBlockIndex;
+}
+
+/**
+ * GetOffset
+ *
+ * Returns the Offset
+ * @returns Offset
+ */
+int Address::GetNumberBlockIndexBits() const
+{
+    return blockIndexBits;
+}
+
 /**
  * CalculateTag
  *
  * sets the Tag
  * @returns Tag
- *
-int Address::CalculateTag()
+ */
+void Address::CalculateTag()
 {
-
+    SetTag(GetAddress() >> GetNumberBlockIndexBits() >> GetNumberBlockOffsetBits());
 };
 /**
  * SetTag
  *
  * sets the Tag to the int passed in
  * @param Tag
- *
-void Address::setTag(int inTag)
+ */
+void Address::SetTag(int inTag)
 {
     tag = inTag;
 }
@@ -212,40 +132,93 @@ void Address::setTag(int inTag)
  *
  * Returns the Tag
  * @returns Tag
- *
+ */
 int Address::GetTag() const
 {
     return tag;
 }
-/**
- * CalculateDirtyBit
- *
- * sets the DirtyBit
- * @returns DirtyBit
- *
-int Address::CalculateDirtyBit()
-{
-
-};
 
 /**
- * SetDirtyBit
+ * CalculatePageOffset
  *
- * sets the DirtyBit to the int passed in
- * @param DirtyBit
- *
-void Address::setDirtyBit(int inDirtyBit)
+ * sets the PageOffset
+ * @returns PageOffset
+ */
+void Address::CalculatePageOffset()
 {
-    dirtyBit = inDirtyBit;
+    SetPageOffset((address >> 0) & ((1 << GetNumberPageOffsetBits())-1));
+}
+/**
+ * SetPageOffset
+ *
+ * sets the PageOffset to the int passed in
+ * @param PageOffset
+ */
+void Address::SetPageOffset(int inPageOffset)
+{
+    pageOffset = inPageOffset;
+}
+/**
+ * PageOffset
+ *
+ * Returns the PageOffset
+ * @returns PageOffset
+ */
+int Address::GetPageOffset() const
+{
+    return pageOffset;
+}
+
+
+/**
+ * CalculatePageOffset
+ *
+ * sets the PageOffset
+ * @returns PageOffset
+ */
+void Address::CalculatePhysicalPageNumber()
+{
+    SetPageOffset((address >> 0) & ((1 << GetNumberPageOffsetBits())-1));
+}
+/**
+ * SetPhysicalPageNumber
+ *
+ * sets the PhysicalPageNumber to the int passed in
+ * @param PhysicalPageNumber
+ */
+void Address::SetPhysicalPageNumber(int inBlockIndex)
+{
+    physicalPageNumber = inBlockIndex;
 }
 
 /**
- * GetDirtyBit
+ * GetOffset
  *
- * Returns the DirtyBit
- * @returns DirtyBit
- *
-int Address::GetDirtyBit() const
+ * Returns the Offset
+ * @returns Offset
+ */
+int Address::GetPhysicalPageNumber() const
 {
-    return dirtyBit;
-}**/
+    return physicalPageNumber;
+}
+
+/**
+ * SetPageOffset
+ *
+ * sets the PageOffset to the int passed in
+ * @param PageOffset
+ */
+void Address::SetNumberPageOffsetBits(int inPOffset)
+{
+    pobits = inPOffset;
+}
+/**
+ * PageOffset
+ *
+ * Returns the PageOffset
+ * @returns PageOffset
+ */
+int Address::GetNumberPageOffsetBits() const
+{
+    return pobits;
+}

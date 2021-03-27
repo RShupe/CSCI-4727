@@ -14,23 +14,17 @@
 #include <sstream>
 #include <string>
 #include <tgmath.h>
-#include <iostream>
-#include <tuple>
 
-
-#include "TLB.h"
-#include "PageTable.h"
 #include "Address.h"
-#include "L1Cache.h"
-#include "L2Cache.h"
+#include "Cache.h"
 
 void CheckArg(int argc, char *argv[]);
-std::vector<std::vector<int>> ReadAddresses(std::string fileName);
+std::vector<std::vector<uint>> ReadAddresses(std::string fileName);
 void FillConfiguration(std::string fileName);
 
 void RunSimulation();
 
-/*int TLBHits;
+int TLBHits;
 int TLBMisses;
 float TLBHitRatio;
 int PTHits;
@@ -47,17 +41,17 @@ int TotalWrites;
 float RatioOfReads;
 int MainRefs;
 int PTRefs;
-int DiskRefs;*/
+int DiskRefs;
 
-std::vector<std::vector<int>> addresses;
+std::vector<std::vector<uint>> addresses;
 
-TLB tlb;
-PageTable pageTable;
-L1Cache L1;
-L2Cache L2;
+Cache L1;
+Cache L2;
 bool isVirtual = true;
 bool TLBEnabled;
 bool L2Enabled;
+
+int pobitstemp;
 
 /**
  * The main method that drives the entire program
@@ -67,6 +61,30 @@ int main(int argc, char *argv[])
     using namespace std;
     CheckArg(argc, argv);
     RunSimulation();
+
+    int totalDCHits = DCHits + DCMisses;
+    DCHitRatio = float(DCHits) / totalDCHits;
+
+    int totalL2Hits = L2Hits + L2Misses;
+    L2HitRatio = float(L2Hits) / totalL2Hits;
+
+    int total = TotalReads + TotalWrites;
+    RatioOfReads = float(TotalReads) / total;
+
+
+    string statsString =
+            "\nSimulation Statistics\n\n"
+            "DC Hits : " + to_string(DCHits) +
+            "\nDC Misses : "+ to_string(DCMisses) +
+            "\nDC Hit Ratio : "+ to_string(DCHitRatio) +
+            "\n\nL2 Hits : " + to_string(L2Hits) +
+            "\nL2 Misses : "+ to_string(L2Misses) +
+            "\nL2 Hit Ratio : "+ to_string(L2HitRatio)+
+            "\n\nTotal Reads : " + to_string(TotalReads) +
+            "\nTotal Writes : "+ to_string(TotalWrites) +
+            "\nRatio of reads : "+ to_string(RatioOfReads);
+
+    cout << statsString << endl;
     return 0;
 }
 
@@ -87,30 +105,93 @@ void RunSimulation()
     if(isVirtual)
     {
         cout << header1 << endl;
-    }else{
+    }
+    else{
         cout << header2 << endl;
+
+        for(int i = 0; i < addresses.size() -1; i++)
+        {
+            Address currentAddress(addresses[i][1]);
+
+            if(addresses[i][0] == 1)
+            {
+                TotalWrites++;
+            }
+            else
+            {
+                TotalReads++;
+            }
+
+            currentAddress.SetNumberPageOffsetBits(pobitstemp);
+            currentAddress.CalculatePageOffset();
+            int pageOffset = currentAddress.GetPageOffset();
+
+            int physPageNumber = currentAddress.GetPhysicalPageNumber();
+
+            //-----------L1------------
+            currentAddress.SetNumberBlockOffsetBits(L1.GetNumOffsetBits());
+            currentAddress.SetNumberBlockIndexBits(L1.GetNumIndexBits());
+            currentAddress.CalculateBlockIndex();
+            currentAddress.CalculateTag();
+
+            int L1Index, L1Tag;
+            L1Index = currentAddress.GetBlockIndex();
+            L1Tag = currentAddress.GetTag();
+
+            string foundInL1 = "";
+            if(L1.CheckCache(currentAddress.GetBlockIndex(), currentAddress.GetTag()))
+            {
+                foundInL1 = "hit";
+                DCHits++;
+
+                printf("%08x %6s %4x %6s %3s %4s %4s %4x %6x %3x %4s", currentAddress.GetAddress(), "" , pageOffset, "", "", " ", " ", 0,
+                       L1Tag, L1Index, foundInL1.c_str());
+            }
+            else
+            {
+                L1.Insert(currentAddress.GetBlockIndex(), currentAddress.GetTag());
+                foundInL1 = "miss";
+                DCMisses++;
+
+                if(L2Enabled)
+                {
+                    //-------------L2------------------
+                    currentAddress.SetNumberBlockOffsetBits(L2.GetNumOffsetBits());
+                    currentAddress.SetNumberBlockIndexBits(L2.GetNumIndexBits());
+                    currentAddress.CalculateBlockIndex();
+                    currentAddress.CalculateTag();
+
+                    int L2Index, L2Tag;
+                    L2Index = currentAddress.GetBlockIndex();
+                    L2Tag = currentAddress.GetTag();
+
+                    string foundInL2 = "";
+                    if(L2.CheckCache(currentAddress.GetBlockIndex(), currentAddress.GetTag())) {
+                        foundInL2 = "hit";
+                        L2Hits++;
+                    }
+                    else
+                    {
+                        foundInL2 = "miss";
+                        L2Misses++;
+                        DiskRefs++;
+                        L2.Insert(currentAddress.GetBlockIndex(), currentAddress.GetTag());
+                    }
+
+                    printf("%08x %6s %4x %6s %3s %4s %4s %4x %6x %3x %4s %6x %3x %4s", currentAddress.GetAddress(), "", pageOffset, "", "", " ", " ", 0,
+                           L1Tag, L1Index, foundInL1.c_str(), L2Tag, L2Index, foundInL2.c_str());
+                }else
+                {
+                    printf("%08x %6s %4x %6s %3s %4s %4s %4x %6x %3x %4s", currentAddress.GetAddress(), "", pageOffset, "", "", " ", " ", 0,
+                           L1Tag, L1Index, foundInL1.c_str());
+                }
+
+            }
+            cout << endl;
+        }
     }
 
-    for(int i = 0; i < 9; i++)
-    {
-        //cout <<  addresses[i][0] << " ";
 
-        int address = addresses[i][1];
-
-
-        int L1Index, L1Tag;
-        tie(L1Index, L1Tag) = L1.Insert(address);
-
-        int L2Index, L2Tag;
-        tie(L2Index, L2Tag) = L2.Insert(address);
-
-
-        printf("%08x %6x %4x %6x %3x %4s %4s %4x %6x %3x %4s %6x %3x %4s", address, 0, 0, 0, 0, " ", " ", 0,
-               L1Tag, L1Index," ", L2Tag, L2Index, " ");
-
-
-        cout << endl;
-    }
 }
 
 
@@ -169,6 +250,7 @@ void FillConfiguration(std::string fileName)
             cout << "Each page contains " << temp << " bytes." << endl;
 
             int offset = log2(stoi(temp));
+            pobitstemp = offset;
 
             cout << "Number of bits used for the index is: " << index << endl;
             cout << "Number of bits used for the page offset is: " << offset << "\n"<< endl;
@@ -177,7 +259,7 @@ void FillConfiguration(std::string fileName)
         else if(temp == "Data Cache configuration")
         {
             cout << "Data Cache configuration" << endl;
-            L1 = L1Cache();
+            L1 = Cache();
 
             getline(MyReadFile, text);
             string temp;
@@ -224,7 +306,7 @@ void FillConfiguration(std::string fileName)
         else if(temp == "L2 Cache configuration")
         {
             cout << "L2 Cache configuration" << endl;
-            L2 = L2Cache();
+            L2 = Cache();
 
             getline(MyReadFile, text);
             string temp;
@@ -306,8 +388,8 @@ void FillConfiguration(std::string fileName)
             }
             else
             {
-                cout << "L2 L1Cache is disabled." << endl;
-                L2Enabled = true;
+                cout << "L2 Cache is disabled." << endl;
+                L2Enabled = false;
             }
             cout << "--------------------------------------------\n" << endl;
 
@@ -320,14 +402,14 @@ void FillConfiguration(std::string fileName)
 /**
  * Reads in the addresses from the file and whether it is a read or a write
  */
-std::vector<std::vector<int>> ReadAddresses(std::string fileName)
+std::vector<std::vector<uint>> ReadAddresses(std::string fileName)
 {
     using namespace std;
     // Read from the text file
     ifstream MyReadFile(fileName);
 
     int rows = count(istreambuf_iterator<char>(MyReadFile), istreambuf_iterator<char>(), '\n');
-    vector<vector<int>> addresses(rows, vector<int> (2));
+    vector<vector<uint>> addresses(rows, vector<uint> (2));
     ifstream MyReadFile2(fileName);
     int i = 0;
     // Use a while loop together with the getline() function to read the file line by line
@@ -337,7 +419,7 @@ std::vector<std::vector<int>> ReadAddresses(std::string fileName)
         {
             addresses[i][0] = 0; //store read
             string temp(fileName.begin() + 2, fileName.end());
-            int x;
+            uint x;
             std::stringstream ss;
             ss << std::hex << temp;
             ss >> x;
@@ -348,7 +430,7 @@ std::vector<std::vector<int>> ReadAddresses(std::string fileName)
         {
             addresses[i][0] = 1; //store write
             string temp(fileName.begin() + 2, fileName.end());
-            int x;
+            uint x;
             std::stringstream ss;
             ss << std::hex << temp;
             ss >> x;

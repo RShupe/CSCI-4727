@@ -8,28 +8,28 @@
 		<Option virtualFolders="CMake Files\;"/>
 		<Build>
 			<Target title="all">
-				<Option working_dir="/tmp/proj3/cmake-build-debug-remote-pi"/>
+				<Option working_dir="/tmp/proj3b/cmake-build-debug-remote-pi"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/tmp/proj3/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 all"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/tmp/proj3/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/tmp/proj3/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/tmp/proj3/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/tmp/proj3b/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/tmp/proj3b/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/tmp/proj3b/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/tmp/proj3b/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="rebuild_cache">
-				<Option working_dir="/tmp/proj3/cmake-build-debug-remote-pi"/>
+				<Option working_dir="/tmp/proj3b/cmake-build-debug-remote-pi"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/tmp/proj3/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/tmp/proj3/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/tmp/proj3/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/tmp/proj3/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/tmp/proj3b/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/tmp/proj3b/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/tmp/proj3b/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/tmp/proj3b/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="Proj3">
-				<Option output="/tmp/proj3/cmake-build-debug-remote-pi/Proj3" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/tmp/proj3/cmake-build-debug-remote-pi"/>
+				<Option output="/tmp/proj3b/cmake-build-debug-remote-pi/Proj3" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/tmp/proj3b/cmake-build-debug-remote-pi"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -44,15 +44,15 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/tmp/proj3/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 Proj3"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/tmp/proj3/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/tmp/proj3/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/tmp/proj3/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/tmp/proj3b/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 Proj3"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/tmp/proj3b/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/tmp/proj3b/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/tmp/proj3b/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="Proj3/fast">
-				<Option output="/tmp/proj3/cmake-build-debug-remote-pi/Proj3" prefix_auto="0" extension_auto="0"/>
-				<Option working_dir="/tmp/proj3/cmake-build-debug-remote-pi"/>
+				<Option output="/tmp/proj3b/cmake-build-debug-remote-pi/Proj3" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/tmp/proj3b/cmake-build-debug-remote-pi"/>
 				<Option object_output="./"/>
 				<Option type="1"/>
 				<Option compiler="gcc"/>
@@ -67,57 +67,57 @@
 					<Add directory="/usr/include"/>
 				</Compiler>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/tmp/proj3/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 Proj3/fast"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/tmp/proj3/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/tmp/proj3/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/tmp/proj3/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/tmp/proj3b/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 Proj3/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/tmp/proj3b/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/tmp/proj3b/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/tmp/proj3b/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 			<Target title="edit_cache">
-				<Option working_dir="/tmp/proj3/cmake-build-debug-remote-pi"/>
+				<Option working_dir="/tmp/proj3b/cmake-build-debug-remote-pi"/>
 				<Option type="4"/>
 				<MakeCommands>
-					<Build command="/usr/bin/make -j4 -f &quot;/tmp/proj3/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 edit_cache"/>
-					<CompileFile command="/usr/bin/make -j4 -f &quot;/tmp/proj3/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
-					<Clean command="/usr/bin/make -j4 -f &quot;/tmp/proj3/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 clean"/>
-					<DistClean command="/usr/bin/make -j4 -f &quot;/tmp/proj3/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 clean"/>
+					<Build command="/usr/bin/make -j4 -f &quot;/tmp/proj3b/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/tmp/proj3b/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/tmp/proj3b/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/tmp/proj3b/cmake-build-debug-remote-pi/Makefile&quot;  VERBOSE=1 clean"/>
 				</MakeCommands>
 			</Target>
 		</Build>
-		<Unit filename="/tmp/proj3/Address.cpp">
+		<Unit filename="/tmp/proj3b/Address.cpp">
 			<Option target="Proj3"/>
 		</Unit>
-		<Unit filename="/tmp/proj3/Address.h">
+		<Unit filename="/tmp/proj3b/Address.h">
 			<Option target="Proj3"/>
 		</Unit>
-		<Unit filename="/tmp/proj3/L1Cache.cpp">
+		<Unit filename="/tmp/proj3b/L1Cache.cpp">
 			<Option target="Proj3"/>
 		</Unit>
-		<Unit filename="/tmp/proj3/L1Cache.h">
+		<Unit filename="/tmp/proj3b/L1Cache.h">
 			<Option target="Proj3"/>
 		</Unit>
-		<Unit filename="/tmp/proj3/L2Cache.cpp">
+		<Unit filename="/tmp/proj3b/L2Cache.cpp">
 			<Option target="Proj3"/>
 		</Unit>
-		<Unit filename="/tmp/proj3/L2Cache.h">
+		<Unit filename="/tmp/proj3b/L2Cache.h">
 			<Option target="Proj3"/>
 		</Unit>
-		<Unit filename="/tmp/proj3/PageTable.cpp">
+		<Unit filename="/tmp/proj3b/PageTable.cpp">
 			<Option target="Proj3"/>
 		</Unit>
-		<Unit filename="/tmp/proj3/PageTable.h">
+		<Unit filename="/tmp/proj3b/PageTable.h">
 			<Option target="Proj3"/>
 		</Unit>
-		<Unit filename="/tmp/proj3/TLB.cpp">
+		<Unit filename="/tmp/proj3b/TLB.cpp">
 			<Option target="Proj3"/>
 		</Unit>
-		<Unit filename="/tmp/proj3/TLB.h">
+		<Unit filename="/tmp/proj3b/TLB.h">
 			<Option target="Proj3"/>
 		</Unit>
-		<Unit filename="/tmp/proj3/main.cpp">
+		<Unit filename="/tmp/proj3b/main.cpp">
 			<Option target="Proj3"/>
 		</Unit>
-		<Unit filename="/tmp/proj3/CMakeLists.txt">
+		<Unit filename="/tmp/proj3b/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\"/>
 		</Unit>
 	</Project>

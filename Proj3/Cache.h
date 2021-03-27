@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
-//	File Name:                      L1Cache.h
+//	File Name:                      Cache.h
 //	Description:                    This is a header file for a cache.
 //	Author:                         Ryan Shupe, East Tennessee State University
 //  Email:                          shuper@etsu.edu
@@ -8,11 +8,11 @@
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef PROJ3_L1CACHE_H
-#define PROJ3_L1CACHE_H
+#ifndef PROJ3_CACHE_H
+#define PROJ3_CACHE_H
 using namespace std;
 
-class L1Cache
+class Cache
 {
 private:
     int numberOfSets;
@@ -22,12 +22,11 @@ private:
     int indexBits;
     bool writeThroughEnabled;
 public:
-    L1Cache();
+    Cache();
     void InitCache();
-    tuple<int,int> Insert(int address);
-    void Evict ();
-    void Evict (int index);
-    bool CheckCache (int index);
+    void Insert(int index, int tag);
+    void EvictLRU (int index);
+    bool CheckCache (int index, int tag);
     void SetPolicy(int inPolicy);
     int GetNumOffsetBits() const;
     void SetNumOffsetBits(int inOffset);
@@ -42,4 +41,4 @@ public:
 };
 
 
-#endif //PROJ3_L1CACHE_H
+#endif //PROJ3_CACHE_H

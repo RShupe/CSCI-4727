@@ -11,52 +11,66 @@
 #ifndef PROJ3_ADDRESS_H
 #define PROJ3_ADDRESS_H
 
-#include "L1Cache.h"
+#include "Cache.h"
 using namespace std;
 
-class Address {
+class Address
+{
 
 private:
     bool isVirtual;
     int address;
     int pageOffset;
+    int pobits;
     int virtualPageNumber;
+    int physicalPageNumber;
     int tlbIndex;
-    int l1blockIndex;
-    int l2blockIndex;
+    int blockOffset;
+    int blockOffsetBits;
+    int blockIndexBits;
     int blockIndex;
     int tag;
     int dirtyBit;
 
 public:
     Address (int inAddr);
-    Address (int inAddr, L1Cache inL1);
-    Address (int inAddr, L1Cache* inL1, L1Cache *inL2);
+    int GetAddress() const;
 
-    int CalculatePageOffset();
+    void SetNumberPageOffsetBits(int inPOBits);
+    int GetNumberPageOffsetBits() const;
+
+    void SetNumberBlockOffsetBits(int inBlockOffset);
+    int GetNumberBlockOffsetBits() const;
+
+    void SetNumberBlockIndexBits(int inBlockIndex);
+    int GetNumberBlockIndexBits() const;
+
+    void CalculateBlockIndex();
+    void SetBlockIndex(int inBlockIndex);
+    int GetBlockIndex() const;
+
+    void CalculateTag();
+    void SetTag(int inTag);
+    int GetTag() const;
+
+    void CalculatePageOffset();
     void SetPageOffset(int inPageOffset);
     int GetPageOffset() const;
+
+    void SetPhysicalPageNumber(int inBlockIndex);
+    void CalculatePhysicalPageNumber();
+    int GetPhysicalPageNumber() const;
+
+    /*
     int CalculateTLBIndex();
     void SetTLBIndex(int inTLBIndex);
     int GetTLBIndex() const;
     int CalculateVirutalPageNumber();
     void SetVirutalPageNumber(int inVirutalPageNumber);
     int GetVirutalPageNumber() const;
-    int CalculateL1BlockIndex();
-    int CalculateL2BlockIndex();
-    void setL1BlockIndex(int inBlockOffset);
-    int GetL1BlockIndex() const;
-    void setL2BlockIndex(int inBlockOffset);
-    int GetL2BlockIndex() const;
-    int CalculateBlockIndex();
-    void setBlockIndex(int inBlockIndex);
-    int GetBlockIndex() const;
-    int CalculateTag();
-    void setTag(int inTag);
-    int GetTag() const;
     int CalculateDirtyBit();
-    void setDirtyBit(int inDirtyBit);
-    int GetDirtyBit() const;
+    void SetDirtyBit(int inDirtyBit);
+    int GetDirtyBit() const;*/
 };
 
 
