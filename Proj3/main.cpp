@@ -13,45 +13,61 @@
 #include <algorithm>
 #include <sstream>
 #include <string>
-#include <tgmath.h>
+#include <ctgmath>
 
 #include "Address.h"
-#include "Cache.h"
+#include "L1Cache.h"
+#include "L2Cache.h"
 
+//---HEADERS------------------------------------------
 void CheckArg(int argc, char *argv[]);
 std::vector<std::vector<uint>> ReadAddresses(std::string fileName);
 void FillConfiguration(std::string fileName);
-
+void InsertIntoMainMemory(Address currentAddress, int physPageNumber);
 void RunSimulation();
+//-----------------------------------------------------
 
-int TLBHits;
-int TLBMisses;
-float TLBHitRatio;
-int PTHits;
-int PTMisses;
-float PTHitRatio;
+//--VARIABLES------------------------------------------
+//int TLBHits;
+//int TLBMisses;
+//float TLBHitRatio;
+
+//int PTHits;
+//int PTMisses;
+//float PTHitRatio;
+
 int DCHits;
 int DCMisses;
 float DCHitRatio;
+
 int L2Hits;
 int L2Misses;
 float L2HitRatio;
+
 int TotalReads;
 int TotalWrites;
 float RatioOfReads;
+
 int MainRefs;
-int PTRefs;
-int DiskRefs;
+//int PTRefs;
+//int DiskRefs;
 
-std::vector<std::vector<uint>> addresses;
+vector<vector<uint>> addresses;
+vector<vector<uint>> mainMemory;
 
-Cache L1;
-Cache L2;
+L1Cache L1;
+L2Cache L2;
 bool isVirtual = true;
-bool TLBEnabled;
+//bool TLBEnabled;
 bool L2Enabled;
+bool writeAllocateAndWriteBackL1;
+bool writeAllocateAndWriteBackL2;
 
+int physPageSize;
+int numPhysicalPages;
 int pobitstemp;
+int physPageIndexBits;
+//-----------------------------------------------------
 
 /**
  * The main method that drives the entire program
@@ -59,8 +75,8 @@ int pobitstemp;
 int main(int argc, char *argv[])
 {
     using namespace std;
-    CheckArg(argc, argv);
-    RunSimulation();
+    CheckArg(argc, argv); //check if 2 args exist
+    RunSimulation(); //run the simulation
 
     int totalDCHits = DCHits + DCMisses;
     DCHitRatio = float(DCHits) / totalDCHits;
@@ -82,12 +98,16 @@ int main(int argc, char *argv[])
             "\nL2 Hit Ratio : "+ to_string(L2HitRatio)+
             "\n\nTotal Reads : " + to_string(TotalReads) +
             "\nTotal Writes : "+ to_string(TotalWrites) +
-            "\nRatio of reads : "+ to_string(RatioOfReads);
+            "\nRatio of reads : "+ to_string(RatioOfReads) +
+            "\n\nNumber of main memory references: " + to_string(MainRefs);
 
     cout << statsString << endl;
     return 0;
 }
 
+/**
+ * The method that runs the memory simulation
+ */
 void RunSimulation()
 {
     using namespace std;
@@ -102,18 +122,23 @@ void RunSimulation()
             "Address  Page # Off  Tag    Ind Res. Res. Pg # DC Tag Ind Res. L2 Tag Ind Res.\n"
             "-------- ------ ---- ------ --- ---- ---- ---- ------ --- ---- ------ --- ----";
 
-    if(isVirtual)
+    if(isVirtual) //determine which header to output
     {
         cout << header1 << endl;
     }
-    else{
+    else
+        {
         cout << header2 << endl;
 
-        for(int i = 0; i < addresses.size() -1; i++)
-        {
-            Address currentAddress(addresses[i][1]);
+        vector<vector<uint>> temp( numPhysicalPages , vector<uint> (physPageSize / 4, 0));
+        mainMemory = temp; //initialize main memory to the right size
 
-            if(addresses[i][0] == 1)
+
+        for(int i = 0; i < addresses.size() ; i++)
+        {
+            Address currentAddress(addresses[i][1]); //the current address we are working with
+
+            if(addresses[i][0] == 1) //determine if the address is a read or a write.
             {
                 TotalWrites++;
             }
@@ -124,32 +149,54 @@ void RunSimulation()
 
             currentAddress.SetNumberPageOffsetBits(pobitstemp);
             currentAddress.CalculatePageOffset();
-            int pageOffset = currentAddress.GetPageOffset();
+            int pageOffset = currentAddress.GetPageOffset(); //calculate page offset
 
-            int physPageNumber = currentAddress.GetPhysicalPageNumber();
+            currentAddress.SetNumberPageIndexBits(physPageIndexBits);
+            currentAddress.CalculatePhysicalPageNumber();
+            int physPageNumber = currentAddress.GetPhysicalPageNumber(); //calculate physical page number
 
             //-----------L1------------
             currentAddress.SetNumberBlockOffsetBits(L1.GetNumOffsetBits());
             currentAddress.SetNumberBlockIndexBits(L1.GetNumIndexBits());
             currentAddress.CalculateBlockIndex();
-            currentAddress.CalculateTag();
+            currentAddress.CalculateTag(); //calculate L1 tag
 
             int L1Index, L1Tag;
             L1Index = currentAddress.GetBlockIndex();
             L1Tag = currentAddress.GetTag();
 
             string foundInL1 = "";
-            if(L1.CheckCache(currentAddress.GetBlockIndex(), currentAddress.GetTag()))
+            if(L1.CheckCache(currentAddress.GetBlockIndex(), currentAddress.GetTag())) //if a hit in the cache
             {
                 foundInL1 = "hit";
                 DCHits++;
 
-                printf("%08x %6s %4x %6s %3s %4s %4s %4x %6x %3x %4s", currentAddress.GetAddress(), "" , pageOffset, "", "", " ", " ", 0,
+                printf("%08x %6s %4x %6s %3s %4s %4s %4x %6x %3x %4s", currentAddress.GetAddress(), "" , pageOffset, "", "", " ", " ", physPageNumber,
                        L1Tag, L1Index, foundInL1.c_str());
             }
-            else
+            else //if a miss in the cache
             {
-                L1.Insert(currentAddress.GetBlockIndex(), currentAddress.GetTag());
+                if(!writeAllocateAndWriteBackL1) //check if writeback is disabled
+                {
+                    //no write allocate / write through
+                    if(addresses[i][0] == 0) // only put into cache if it is a read
+                    {
+                        L1.Insert(currentAddress.GetBlockIndex(), currentAddress.GetTag());
+                    }
+                    if(!L2Enabled) //if L2 is not enabled, insert directly into memory
+                    {
+                        InsertIntoMainMemory(currentAddress, physPageNumber);
+                    }
+                }
+                else
+                {
+                    if(!L2Enabled)//if L2 is not enabled, insert directly into memory
+                    {
+                        InsertIntoMainMemory(currentAddress, physPageNumber);
+                    }
+                    L1.Insert(currentAddress.GetBlockIndex(), currentAddress.GetTag());
+                }
+
                 foundInL1 = "miss";
                 DCMisses++;
 
@@ -174,25 +221,75 @@ void RunSimulation()
                     {
                         foundInL2 = "miss";
                         L2Misses++;
-                        DiskRefs++;
-                        L2.Insert(currentAddress.GetBlockIndex(), currentAddress.GetTag());
+                        MainRefs++;
+
+                        if(!writeAllocateAndWriteBackL2)
+                        {
+                            //no write allocate
+                            if(addresses[i][0] == 0)
+                            {
+                                L2.Insert(currentAddress.GetBlockIndex(), currentAddress.GetTag());
+                            }
+                            InsertIntoMainMemory(currentAddress, physPageNumber);
+                        }
+                        else
+                        {
+                            L2.Insert(currentAddress.GetBlockIndex(), currentAddress.GetTag());
+                            InsertIntoMainMemory(currentAddress, physPageNumber);
+                        }
                     }
 
-                    printf("%08x %6s %4x %6s %3s %4s %4s %4x %6x %3x %4s %6x %3x %4s", currentAddress.GetAddress(), "", pageOffset, "", "", " ", " ", 0,
+                    printf("%08x %6s %4x %6s %3s %4s %4s %4x %6x %3x %4s %6x %3x %4s", currentAddress.GetAddress(), "", pageOffset, "", "", " ", " ", physPageNumber,
                            L1Tag, L1Index, foundInL1.c_str(), L2Tag, L2Index, foundInL2.c_str());
-                }else
+                }
+                else
                 {
-                    printf("%08x %6s %4x %6s %3s %4s %4s %4x %6x %3x %4s", currentAddress.GetAddress(), "", pageOffset, "", "", " ", " ", 0,
+                    MainRefs ++;
+                    printf("%08x %6s %4x %6s %3s %4s %4s %4x %6x %3x %4s", currentAddress.GetAddress(), "", pageOffset, "", "", " ", " ", physPageNumber,
                            L1Tag, L1Index, foundInL1.c_str());
                 }
-
             }
-            cout << endl;
+
+            cout << endl; //output the formatted string
         }
     }
-
-
 }
+
+/**
+ * Inserts an address into main memory if it does not already exist.
+ * @param currentAddress, physPageNumber
+ */
+void InsertIntoMainMemory(Address currentAddress, int physPageNumber)
+{
+    bool placed = false;
+    int i = 0;
+    while(placed == false && i < mainMemory[physPageNumber].size()) // loop to check if the address is already in memory
+    {
+        if(mainMemory[physPageNumber][i] == currentAddress.GetAddress())
+        {
+            placed = true;
+        }else
+        {
+            i++;
+        }
+    }
+    if(!placed) //if it is not, find an open spot and place it at the page number.
+    {
+        int i = 0;
+        while(placed == false && i < mainMemory[physPageNumber].size())
+        {
+            if(mainMemory[physPageNumber][i] == 0)
+            {
+                mainMemory[physPageNumber][i] = currentAddress.GetAddress();
+                placed = true;
+            }else
+            {
+                i++;
+            }
+        }
+    }
+}
+
 
 
 /**
@@ -201,15 +298,15 @@ void RunSimulation()
 void FillConfiguration(std::string fileName)
 {
     using namespace std;
-    ifstream MyReadFile(fileName);
+    ifstream MyReadFile(fileName); //open the config file
 
     string text;
-    while (getline (MyReadFile, text))
+    while (getline (MyReadFile, text)) //while there is a line in the file
     {
         string temp;
         temp = text.substr(text.find(":") + 1);
 
-        if(temp == "Data TLB configuration")
+        if(temp == "Data TLB configuration") //fill the data about the TLB configuration
         {
             cout << "--------------------------------------------" << endl;
             cout << "Data TLB configuration" << endl;
@@ -227,11 +324,9 @@ void FillConfiguration(std::string fileName)
             int entries = stoi(temp);
 
             //tlb = TLB();
-
-
             cout << "Number of bits used for the index is " << index << ".\n" << endl;
         }
-        else if(temp == "Page Table configuration")
+        else if(temp == "Page Table configuration") //fill the data about the page table
         {
             cout << "Page Table configuration" << endl;
             getline(MyReadFile, text);
@@ -244,22 +339,26 @@ void FillConfiguration(std::string fileName)
             getline(MyReadFile, text);
             temp = text.substr(text.find(":") + 1);
             cout << "Number of physical pages: " << temp << endl;
+            numPhysicalPages = stoi(temp);
 
             getline(MyReadFile, text);
             temp = text.substr(text.find(":") + 1);
             cout << "Each page contains " << temp << " bytes." << endl;
+            physPageSize = stoi(temp);
 
             int offset = log2(stoi(temp));
             pobitstemp = offset;
+
+            physPageIndexBits = index;
 
             cout << "Number of bits used for the index is: " << index << endl;
             cout << "Number of bits used for the page offset is: " << offset << "\n"<< endl;
 
         }
-        else if(temp == "Data Cache configuration")
+        else if(temp == "Data Cache configuration") //fill the data and initialize the L1
         {
             cout << "Data Cache configuration" << endl;
-            L1 = Cache();
+            L1 = L1Cache();
 
             getline(MyReadFile, text);
             string temp;
@@ -290,12 +389,12 @@ void FillConfiguration(std::string fileName)
             if(temp == "y")
             {
                 cout << "The cache uses a write-through policy." << endl;
-                L1.SetPolicy(0);
+                writeAllocateAndWriteBackL1 = false;
             }
             else
             {
                 cout << "The cache uses a write-allocate and write-back policy." << endl;
-                L1.SetPolicy(1);
+                writeAllocateAndWriteBackL1 = true;
             }
 
             cout << "The number of bits used for the index is: " << L1.GetNumIndexBits() << endl;
@@ -303,10 +402,10 @@ void FillConfiguration(std::string fileName)
 
             L1.InitCache();
         }
-        else if(temp == "L2 Cache configuration")
+        else if(temp == "L2 Cache configuration") //fill the data and initialize the L2
         {
             cout << "L2 Cache configuration" << endl;
-            L2 = Cache();
+            L2 = L2Cache();
 
             getline(MyReadFile, text);
             string temp;
@@ -337,12 +436,12 @@ void FillConfiguration(std::string fileName)
             if(temp == "y")
             {
                 cout << "The cache uses a write-through policy." << endl;
-                L2.SetPolicy(0);
+                writeAllocateAndWriteBackL2 = false;
             }
             else
             {
                 cout << "The cache uses a write-allocate and write-back policy." << endl;
-                L2.SetPolicy(1);
+                writeAllocateAndWriteBackL2 = true;
             }
 
             cout << "The number of bits used for the index is: " << L2.GetNumIndexBits() << endl;
@@ -370,12 +469,12 @@ void FillConfiguration(std::string fileName)
             if(temp == "y")
             {
                 cout << "TLB is enabled." <<  endl;
-                TLBEnabled = true;
+                //TLBEnabled = true;
             }
             else
             {
                 cout << "TLB is disabled." <<  endl;
-                TLBEnabled = false;
+                //TLBEnabled = false;
             }
 
             getline(MyReadFile, text);
@@ -396,26 +495,27 @@ void FillConfiguration(std::string fileName)
             L2.InitCache();
         }
     }
-    MyReadFile.close();
+    MyReadFile.close(); //close the open file
 }
 
 /**
  * Reads in the addresses from the file and whether it is a read or a write
+ * @param fileName
  */
 std::vector<std::vector<uint>> ReadAddresses(std::string fileName)
 {
     using namespace std;
-    // Read from the text file
-    ifstream MyReadFile(fileName);
+
+    ifstream MyReadFile(fileName); //open the file
 
     int rows = count(istreambuf_iterator<char>(MyReadFile), istreambuf_iterator<char>(), '\n');
-    vector<vector<uint>> addresses(rows, vector<uint> (2));
+    vector<vector<uint>> addresses(rows, vector<uint> (2)); //initialize a temp 2d vector to store addresses
     ifstream MyReadFile2(fileName);
     int i = 0;
-    // Use a while loop together with the getline() function to read the file line by line
+
     while (getline (MyReadFile2, fileName)) {
-        // Output the text from the file
-        if(fileName[0] == 'R')
+
+        if(fileName[0] == 'R') //if the address is a read
         {
             addresses[i][0] = 0; //store read
             string temp(fileName.begin() + 2, fileName.end());
@@ -423,10 +523,10 @@ std::vector<std::vector<uint>> ReadAddresses(std::string fileName)
             std::stringstream ss;
             ss << std::hex << temp;
             ss >> x;
-            addresses[i][1] = x;
+            addresses[i][1] = x; //convert and store hex string as an uint
             i++;
         }
-        else if(fileName[0] == 'W')
+        else if(fileName[0] == 'W') //if the address is a write
         {
             addresses[i][0] = 1; //store write
             string temp(fileName.begin() + 2, fileName.end());
@@ -434,19 +534,19 @@ std::vector<std::vector<uint>> ReadAddresses(std::string fileName)
             std::stringstream ss;
             ss << std::hex << temp;
             ss >> x;
-            addresses[i][1] = x;
+            addresses[i][1] = x; //convert and store hex string as an uint
             i++;
         }
     }
 
     // Close the file
     MyReadFile2.close();
-    return addresses;
+    return addresses; //return filled addresses vector
 }
 
 
 /**
- * checks to see if a file name was passed in
+ * checks to see if 2 file names was passed in
  */
 void CheckArg(int argc, char *argv[])
 {

@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /tmp/proj3b
+CMAKE_SOURCE_DIR = /tmp/proj3
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /tmp/proj3b/cmake-build-debug-remote-pi
+CMAKE_BINARY_DIR = /tmp/proj3/cmake-build-debug-remote-pi
 
 # Include any dependencies generated for this target.
 include CMakeFiles/Proj3.dir/depend.make
@@ -59,87 +59,59 @@ include CMakeFiles/Proj3.dir/flags.make
 
 CMakeFiles/Proj3.dir/main.cpp.o: CMakeFiles/Proj3.dir/flags.make
 CMakeFiles/Proj3.dir/main.cpp.o: ../main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/proj3b/cmake-build-debug-remote-pi/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Proj3.dir/main.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Proj3.dir/main.cpp.o -c /tmp/proj3b/main.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/proj3/cmake-build-debug-remote-pi/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/Proj3.dir/main.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Proj3.dir/main.cpp.o -c /tmp/proj3/main.cpp
 
 CMakeFiles/Proj3.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Proj3.dir/main.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /tmp/proj3b/main.cpp > CMakeFiles/Proj3.dir/main.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /tmp/proj3/main.cpp > CMakeFiles/Proj3.dir/main.cpp.i
 
 CMakeFiles/Proj3.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Proj3.dir/main.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /tmp/proj3b/main.cpp -o CMakeFiles/Proj3.dir/main.cpp.s
-
-CMakeFiles/Proj3.dir/TLB.cpp.o: CMakeFiles/Proj3.dir/flags.make
-CMakeFiles/Proj3.dir/TLB.cpp.o: ../TLB.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/proj3b/cmake-build-debug-remote-pi/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Proj3.dir/TLB.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Proj3.dir/TLB.cpp.o -c /tmp/proj3b/TLB.cpp
-
-CMakeFiles/Proj3.dir/TLB.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Proj3.dir/TLB.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /tmp/proj3b/TLB.cpp > CMakeFiles/Proj3.dir/TLB.cpp.i
-
-CMakeFiles/Proj3.dir/TLB.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Proj3.dir/TLB.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /tmp/proj3b/TLB.cpp -o CMakeFiles/Proj3.dir/TLB.cpp.s
-
-CMakeFiles/Proj3.dir/PageTable.cpp.o: CMakeFiles/Proj3.dir/flags.make
-CMakeFiles/Proj3.dir/PageTable.cpp.o: ../PageTable.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/proj3b/cmake-build-debug-remote-pi/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Proj3.dir/PageTable.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Proj3.dir/PageTable.cpp.o -c /tmp/proj3b/PageTable.cpp
-
-CMakeFiles/Proj3.dir/PageTable.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Proj3.dir/PageTable.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /tmp/proj3b/PageTable.cpp > CMakeFiles/Proj3.dir/PageTable.cpp.i
-
-CMakeFiles/Proj3.dir/PageTable.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Proj3.dir/PageTable.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /tmp/proj3b/PageTable.cpp -o CMakeFiles/Proj3.dir/PageTable.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /tmp/proj3/main.cpp -o CMakeFiles/Proj3.dir/main.cpp.s
 
 CMakeFiles/Proj3.dir/Address.cpp.o: CMakeFiles/Proj3.dir/flags.make
 CMakeFiles/Proj3.dir/Address.cpp.o: ../Address.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/proj3b/cmake-build-debug-remote-pi/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Proj3.dir/Address.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Proj3.dir/Address.cpp.o -c /tmp/proj3b/Address.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/proj3/cmake-build-debug-remote-pi/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/Proj3.dir/Address.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Proj3.dir/Address.cpp.o -c /tmp/proj3/Address.cpp
 
 CMakeFiles/Proj3.dir/Address.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Proj3.dir/Address.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /tmp/proj3b/Address.cpp > CMakeFiles/Proj3.dir/Address.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /tmp/proj3/Address.cpp > CMakeFiles/Proj3.dir/Address.cpp.i
 
 CMakeFiles/Proj3.dir/Address.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Proj3.dir/Address.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /tmp/proj3b/Address.cpp -o CMakeFiles/Proj3.dir/Address.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /tmp/proj3/Address.cpp -o CMakeFiles/Proj3.dir/Address.cpp.s
 
 CMakeFiles/Proj3.dir/L1Cache.cpp.o: CMakeFiles/Proj3.dir/flags.make
 CMakeFiles/Proj3.dir/L1Cache.cpp.o: ../L1Cache.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/proj3b/cmake-build-debug-remote-pi/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Proj3.dir/L1Cache.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Proj3.dir/L1Cache.cpp.o -c /tmp/proj3b/L1Cache.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/proj3/cmake-build-debug-remote-pi/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/Proj3.dir/L1Cache.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Proj3.dir/L1Cache.cpp.o -c /tmp/proj3/L1Cache.cpp
 
 CMakeFiles/Proj3.dir/L1Cache.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Proj3.dir/L1Cache.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /tmp/proj3b/L1Cache.cpp > CMakeFiles/Proj3.dir/L1Cache.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /tmp/proj3/L1Cache.cpp > CMakeFiles/Proj3.dir/L1Cache.cpp.i
 
 CMakeFiles/Proj3.dir/L1Cache.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Proj3.dir/L1Cache.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /tmp/proj3b/L1Cache.cpp -o CMakeFiles/Proj3.dir/L1Cache.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /tmp/proj3/L1Cache.cpp -o CMakeFiles/Proj3.dir/L1Cache.cpp.s
 
 CMakeFiles/Proj3.dir/L2Cache.cpp.o: CMakeFiles/Proj3.dir/flags.make
 CMakeFiles/Proj3.dir/L2Cache.cpp.o: ../L2Cache.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/proj3b/cmake-build-debug-remote-pi/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Proj3.dir/L2Cache.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Proj3.dir/L2Cache.cpp.o -c /tmp/proj3b/L2Cache.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/tmp/proj3/cmake-build-debug-remote-pi/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Proj3.dir/L2Cache.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Proj3.dir/L2Cache.cpp.o -c /tmp/proj3/L2Cache.cpp
 
 CMakeFiles/Proj3.dir/L2Cache.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Proj3.dir/L2Cache.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /tmp/proj3b/L2Cache.cpp > CMakeFiles/Proj3.dir/L2Cache.cpp.i
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /tmp/proj3/L2Cache.cpp > CMakeFiles/Proj3.dir/L2Cache.cpp.i
 
 CMakeFiles/Proj3.dir/L2Cache.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Proj3.dir/L2Cache.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /tmp/proj3b/L2Cache.cpp -o CMakeFiles/Proj3.dir/L2Cache.cpp.s
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /tmp/proj3/L2Cache.cpp -o CMakeFiles/Proj3.dir/L2Cache.cpp.s
 
 # Object files for target Proj3
 Proj3_OBJECTS = \
 "CMakeFiles/Proj3.dir/main.cpp.o" \
-"CMakeFiles/Proj3.dir/TLB.cpp.o" \
-"CMakeFiles/Proj3.dir/PageTable.cpp.o" \
 "CMakeFiles/Proj3.dir/Address.cpp.o" \
 "CMakeFiles/Proj3.dir/L1Cache.cpp.o" \
 "CMakeFiles/Proj3.dir/L2Cache.cpp.o"
@@ -148,14 +120,12 @@ Proj3_OBJECTS = \
 Proj3_EXTERNAL_OBJECTS =
 
 Proj3: CMakeFiles/Proj3.dir/main.cpp.o
-Proj3: CMakeFiles/Proj3.dir/TLB.cpp.o
-Proj3: CMakeFiles/Proj3.dir/PageTable.cpp.o
 Proj3: CMakeFiles/Proj3.dir/Address.cpp.o
 Proj3: CMakeFiles/Proj3.dir/L1Cache.cpp.o
 Proj3: CMakeFiles/Proj3.dir/L2Cache.cpp.o
 Proj3: CMakeFiles/Proj3.dir/build.make
 Proj3: CMakeFiles/Proj3.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/tmp/proj3b/cmake-build-debug-remote-pi/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable Proj3"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/tmp/proj3/cmake-build-debug-remote-pi/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Linking CXX executable Proj3"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Proj3.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -168,6 +138,6 @@ CMakeFiles/Proj3.dir/clean:
 .PHONY : CMakeFiles/Proj3.dir/clean
 
 CMakeFiles/Proj3.dir/depend:
-	cd /tmp/proj3b/cmake-build-debug-remote-pi && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /tmp/proj3b /tmp/proj3b /tmp/proj3b/cmake-build-debug-remote-pi /tmp/proj3b/cmake-build-debug-remote-pi /tmp/proj3b/cmake-build-debug-remote-pi/CMakeFiles/Proj3.dir/DependInfo.cmake --color=$(COLOR)
+	cd /tmp/proj3/cmake-build-debug-remote-pi && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /tmp/proj3 /tmp/proj3 /tmp/proj3/cmake-build-debug-remote-pi /tmp/proj3/cmake-build-debug-remote-pi /tmp/proj3/cmake-build-debug-remote-pi/CMakeFiles/Proj3.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/Proj3.dir/depend
 

@@ -11,7 +11,7 @@
 #ifndef PROJ3_ADDRESS_H
 #define PROJ3_ADDRESS_H
 
-#include "Cache.h"
+#include "L1Cache.h"
 using namespace std;
 
 class Address
@@ -31,6 +31,7 @@ private:
     int blockIndex;
     int tag;
     int dirtyBit;
+    int numberPageIndexBits;
 
 public:
     Address (int inAddr);
@@ -59,6 +60,8 @@ public:
 
     void SetPhysicalPageNumber(int inBlockIndex);
     void CalculatePhysicalPageNumber();
+    int GetNumberPageIndexBits() const;
+    void SetNumberPageIndexBits(int inBlockIndex);
     int GetPhysicalPageNumber() const;
 
     /*

@@ -171,15 +171,40 @@ int Address::GetPageOffset() const
 
 
 /**
- * CalculatePageOffset
+ * CalculatePhysicalPageNumber
  *
- * sets the PageOffset
- * @returns PageOffset
+ * sets the PhysicalPageNumber
+ * @returns PhysicalPageNumber
  */
 void Address::CalculatePhysicalPageNumber()
 {
-    SetPageOffset((address >> 0) & ((1 << GetNumberPageOffsetBits())-1));
+    int blockAddress = address >> GetNumberPageOffsetBits();
+
+    SetPhysicalPageNumber( (blockAddress >> 0) & ((1 << GetNumberPageIndexBits())-1));
 }
+
+/**
+ * NumberPageIndexBits
+ *
+ * Returns the NumberPageIndexBits
+ * @returns NumberPageIndexBits
+ */
+int Address::GetNumberPageIndexBits() const
+{
+    return numberPageIndexBits;
+}
+
+/**
+ * SetNumberPageIndexBits
+ *
+ * sets the NumberPageIndexBits to the int passed in
+ * @param NumberPageIndexBits
+ */
+void Address::SetNumberPageIndexBits(int inBlockIndex)
+{
+    numberPageIndexBits = inBlockIndex;
+}
+
 /**
  * SetPhysicalPageNumber
  *

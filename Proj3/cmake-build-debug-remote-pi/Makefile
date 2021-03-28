@@ -48,10 +48,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /tmp/proj3b
+CMAKE_SOURCE_DIR = /tmp/proj3
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /tmp/proj3b/cmake-build-debug-remote-pi
+CMAKE_BINARY_DIR = /tmp/proj3/cmake-build-debug-remote-pi
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -80,9 +80,9 @@ edit_cache/fast: edit_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /tmp/proj3b/cmake-build-debug-remote-pi/CMakeFiles /tmp/proj3b/cmake-build-debug-remote-pi/CMakeFiles/progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start /tmp/proj3/cmake-build-debug-remote-pi/CMakeFiles /tmp/proj3/cmake-build-debug-remote-pi/CMakeFiles/progress.marks
 	$(MAKE) -f CMakeFiles/Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start /tmp/proj3b/cmake-build-debug-remote-pi/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /tmp/proj3/cmake-build-debug-remote-pi/CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -204,60 +204,6 @@ L2Cache.cpp.s:
 	$(MAKE) -f CMakeFiles/Proj3.dir/build.make CMakeFiles/Proj3.dir/L2Cache.cpp.s
 .PHONY : L2Cache.cpp.s
 
-PageTable.o: PageTable.cpp.o
-
-.PHONY : PageTable.o
-
-# target to build an object file
-PageTable.cpp.o:
-	$(MAKE) -f CMakeFiles/Proj3.dir/build.make CMakeFiles/Proj3.dir/PageTable.cpp.o
-.PHONY : PageTable.cpp.o
-
-PageTable.i: PageTable.cpp.i
-
-.PHONY : PageTable.i
-
-# target to preprocess a source file
-PageTable.cpp.i:
-	$(MAKE) -f CMakeFiles/Proj3.dir/build.make CMakeFiles/Proj3.dir/PageTable.cpp.i
-.PHONY : PageTable.cpp.i
-
-PageTable.s: PageTable.cpp.s
-
-.PHONY : PageTable.s
-
-# target to generate assembly for a file
-PageTable.cpp.s:
-	$(MAKE) -f CMakeFiles/Proj3.dir/build.make CMakeFiles/Proj3.dir/PageTable.cpp.s
-.PHONY : PageTable.cpp.s
-
-TLB.o: TLB.cpp.o
-
-.PHONY : TLB.o
-
-# target to build an object file
-TLB.cpp.o:
-	$(MAKE) -f CMakeFiles/Proj3.dir/build.make CMakeFiles/Proj3.dir/TLB.cpp.o
-.PHONY : TLB.cpp.o
-
-TLB.i: TLB.cpp.i
-
-.PHONY : TLB.i
-
-# target to preprocess a source file
-TLB.cpp.i:
-	$(MAKE) -f CMakeFiles/Proj3.dir/build.make CMakeFiles/Proj3.dir/TLB.cpp.i
-.PHONY : TLB.cpp.i
-
-TLB.s: TLB.cpp.s
-
-.PHONY : TLB.s
-
-# target to generate assembly for a file
-TLB.cpp.s:
-	$(MAKE) -f CMakeFiles/Proj3.dir/build.make CMakeFiles/Proj3.dir/TLB.cpp.s
-.PHONY : TLB.cpp.s
-
 main.o: main.cpp.o
 
 .PHONY : main.o
@@ -303,12 +249,6 @@ help:
 	@echo "... L2Cache.o"
 	@echo "... L2Cache.i"
 	@echo "... L2Cache.s"
-	@echo "... PageTable.o"
-	@echo "... PageTable.i"
-	@echo "... PageTable.s"
-	@echo "... TLB.o"
-	@echo "... TLB.i"
-	@echo "... TLB.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

@@ -1,4 +1,4 @@
-# Install script for directory: /tmp/proj3b
+# Install script for directory: /tmp/proj3
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/tmp/proj3b/cmake-build-debug-remote-pi/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/tmp/proj3/cmake-build-debug-remote-pi/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

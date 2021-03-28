@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
-//	File Name:                      Cache.cpp
+//	File Name:                      L1Cache.cpp
 //	Description:                    This is a class to hold all the attributes of a cache.
 //	Author:                         Ryan Shupe, East Tennessee State University
 //  Email:                          shuper@etsu.edu
@@ -9,14 +9,11 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 #include <vector>
-#include <tuple>
-#include <iostream>
-#include "Cache.h"
-
+#include "L1Cache.h"
 
 using namespace std;
 
-struct dataEntry
+struct dataEntry //struct to hold an lru number and the tag
 {
     int tag = -1;
     int LRUNum = -1;
@@ -27,7 +24,7 @@ vector<vector<dataEntry>> CacheMemory;
 /**
     No arg constructor
  */
-Cache::Cache()
+L1Cache::L1Cache()
 {
 
 };
@@ -37,8 +34,9 @@ Cache::Cache()
  *
  * Init the cache vector to the appropriate size
  */
- void Cache::InitCache()
+ void L1Cache::InitCache()
 {
+     //set the initial vector size and set the entries to -1
     vector<vector<dataEntry>> temp( GetNumberOfSets() , vector<dataEntry> (GetSetSize(), dataEntry()));
     CacheMemory = temp;
     for(int i = 0; i < GetNumberOfSets(); i ++)
@@ -54,19 +52,20 @@ Cache::Cache()
  * Inserts a tag at a spot in memory
  * @param Insert
  */
-void Cache::Insert(int index, int tag)
+void L1Cache::Insert(int index, int tag)
 {
     dataEntry entry;
     entry.tag = tag;
-    entry.LRUNum = 0;
+    entry.LRUNum = 0; //set the LRU to 0 to show its the most recently used entry
 
-    for(int i = 0; i < CacheMemory[index].size(); i ++)
+    for(int i = 0; i < CacheMemory[index].size(); i ++) //increment any other entry LRU at the index by one
     {
         if(CacheMemory[index][i].LRUNum != -1){
             CacheMemory[index][i].LRUNum++;
         }
     }
 
+    //find a place to put the entry in the cache and place it
     bool placed = false;
     int i = 0;
     while(placed == false && i < CacheMemory[index].size())
@@ -80,10 +79,12 @@ void Cache::Insert(int index, int tag)
             i++;
         }
     }
+    //if the cache index is full, evict the highest LRU numbered entry
     if(placed == false)
     {
         EvictLRU(index);
 
+        //find a place to put the entry in the cache and place it
         int i = 0;
         while(placed == false && i < CacheMemory[index].size())
         {
@@ -97,7 +98,7 @@ void Cache::Insert(int index, int tag)
             }
         }
     }
-};
+}
 
 /**
  * Evict
@@ -105,10 +106,10 @@ void Cache::Insert(int index, int tag)
  * Evict at index LRU
  * @param index
  */
-void Cache::EvictLRU (int index)
+void L1Cache::EvictLRU (int index)
 {
     int indexEvict, highestLRU = 0;
-
+    //find the highest LRU in the index and remove
     for(int i = 0; i < CacheMemory[index].size(); i ++)
     {
         if(CacheMemory[index][i].LRUNum >= highestLRU)
@@ -120,6 +121,8 @@ void Cache::EvictLRU (int index)
 
     dataEntry entry;
     CacheMemory[index][indexEvict] = entry;
+
+    SetEvictionBool(true);
 };
 /**
  * CheckCache
@@ -128,10 +131,11 @@ void Cache::EvictLRU (int index)
  * @param index
  * @param tag
  */
-bool Cache::CheckCache (int index, int tag)
+bool L1Cache::CheckCache (int index, int tag)
 {
     bool found = false;
 
+    //check the cache and look for a matching tag at the index
     for(int i = 0; i < CacheMemory[index].size(); i ++)
     {
         if(CacheMemory[index][i].tag == tag)
@@ -150,29 +154,12 @@ bool Cache::CheckCache (int index, int tag)
     return found;
 };
 /**
- * SetPolicy
- *
- * sets the policy
- * @param policynumber
- */
-void Cache::SetPolicy(int inPolicy)
-{
-    if(inPolicy == 0)
-    {
-
-    }else
-    {
-
-    }
-
-};
-/**
  * SetOffset
  *
  * sets the Offset to the int passed in
  * @param Offset
  */
-void Cache::SetNumOffsetBits(int inOffset)
+void L1Cache::SetNumOffsetBits(int inOffset)
 {
     offsetBits = inOffset;
 };
@@ -182,9 +169,29 @@ void Cache::SetNumOffsetBits(int inOffset)
  * Returns the Offset
  * @returns Offset
  */
-int Cache::GetNumOffsetBits() const
+int L1Cache::GetNumOffsetBits() const
 {
     return offsetBits;
+};
+/**
+ * SetOffset
+ *
+ * sets the Offset to the int passed in
+ * @param Offset
+ */
+void L1Cache::SetEvictionBool(bool in)
+{
+    Eviction = in;
+};
+/**
+ * GetOffset
+ *
+ * Returns the Offset
+ * @returns Offset
+ */
+bool L1Cache::GetEvictionBool() const
+{
+    return Eviction;
 };
 /**
  * SetIndex
@@ -192,7 +199,7 @@ int Cache::GetNumOffsetBits() const
  * sets the Index to the int passed in
  * @param Index
  */
-void Cache::SetNumIndexBits(int inIndex)
+void L1Cache::SetNumIndexBits(int inIndex)
 {
     indexBits = inIndex;
 };
@@ -202,7 +209,7 @@ void Cache::SetNumIndexBits(int inIndex)
  * Returns the Index
  * @returns Index
  */
-int Cache::GetNumIndexBits() const
+int L1Cache::GetNumIndexBits() const
 {
     return indexBits;
 };
@@ -212,7 +219,7 @@ int Cache::GetNumIndexBits() const
  * sets the NumberOfSets to the int passed in
  * @param NumberOfSets
  */
-void Cache::SetNumberOfSets(int inNumberOfSets)
+void L1Cache::SetNumberOfSets(int inNumberOfSets)
 {
     numberOfSets = inNumberOfSets;
 };
@@ -222,7 +229,7 @@ void Cache::SetNumberOfSets(int inNumberOfSets)
  * Returns the NumberOfSets
  * @returns NumberOfSets
  */
-int Cache::GetNumberOfSets() const
+int L1Cache::GetNumberOfSets() const
 {
     return numberOfSets;
 };
@@ -232,7 +239,7 @@ int Cache::GetNumberOfSets() const
  * sets the SetSize to the int passed in
  * @param SetSize
  */
-void Cache::SetSetSize(int inSetSize)
+void L1Cache::SetSetSize(int inSetSize)
 {
     setSize = inSetSize;
 };
@@ -242,7 +249,7 @@ void Cache::SetSetSize(int inSetSize)
  * Returns the SetSize
  * @returns SetSize
  */
-int Cache::GetSetSize() const
+int L1Cache::GetSetSize() const
 {
     return setSize;
 };
@@ -252,7 +259,7 @@ int Cache::GetSetSize() const
  * sets the LineSize to the int passed in
  * @param LineSize
  */
-void Cache::SetLineSize(int inLineSize)
+void L1Cache::SetLineSize(int inLineSize)
 {
     lineSize = inLineSize;
 };
@@ -262,7 +269,7 @@ void Cache::SetLineSize(int inLineSize)
  * Returns the LineSize
  * @returns LineSize
  */
-int Cache::GetLineSize() const
+int L1Cache::GetLineSize() const
 {
     return lineSize;
 };

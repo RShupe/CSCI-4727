@@ -6,13 +6,43 @@
 
 #IncludeRegexTransform: 
 
-/tmp/proj3/Cache.cpp
+/tmp/proj3b/Address.cpp
+Address.h
+/tmp/proj3b/Address.h
+
+/tmp/proj3b/Address.h
+Cache.h
+/tmp/proj3b/Cache.h
+
+/tmp/proj3b/Cache.cpp
 vector
 -
 tuple
 -
+iostream
+-
 Cache.h
-/tmp/proj3/Cache.h
+/tmp/proj3b/Cache.h
 
-/tmp/proj3/Cache.h
+/tmp/proj3b/Cache.h
+
+/tmp/proj3b/main.cpp
+iostream
+-
+fstream
+-
+vector
+-
+algorithm
+-
+sstream
+-
+string
+-
+tgmath.h
+-
+Address.h
+/tmp/proj3b/Address.h
+Cache.h
+/tmp/proj3b/Cache.h
 
