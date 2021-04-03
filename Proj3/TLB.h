@@ -1,48 +1,45 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //
-//	File Name:                      L2Cache.h
-//	Description:                    This is a header file for a cache.
+//	File Name:                      TLB.h
+//	Description:                    This is a header file for a TLB.
 //	Author:                         Ryan Shupe, East Tennessee State University
 //  Email:                          shuper@etsu.edu
-//	Created:                        Tuesday March 23, 2021
+//	Created:                        Thursday April 1, 2021
 //
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-#ifndef PROJ3_L2CACHE_H
-#define PROJ3_L2CACHE_H
+#ifndef PROJ3_TLB_H
+#define PROJ3_TLB_H
 using namespace std;
 
-class L2Cache
+class TLB
 {
 private:
     int numberOfSets;
     int setSize;
-    int lineSize;
-    int offsetBits;
     int indexBits;
-    int lastEvictedAddress;
+    int offsetBits;
     bool Eviction;
 
 public:
-    L2Cache();
-    void InitCache();
-    void Insert(int index, int tag);
+    TLB();
+    void InitTLB();
+    void Insert(int index, int tag, int physPageNumber);
     void EvictLRU (int index);
-    bool CheckCache (int index, int tag);
-    int GetNumOffsetBits() const;
-    void SetNumOffsetBits(int inOffset);
-    int GetNumIndexBits() const;
-    void SetNumIndexBits(int inIndex);
+    bool CheckTLB (int index, int tag);
+
     void SetNumberOfSets(int inNumberOfSets);
     int GetNumberOfSets() const;
     void SetSetSize(int inSetSize);
     int GetSetSize() const;
-    void SetLineSize(int inLineSize);
-    int GetLineSize() const;
+    int GetPhysicalPage(int index, int tag);
+
+    void SetIndexBits(int inBits);
+    int GetIndexBits() const;
 
     void SetEvictionBool(bool in);
     bool GetEvictionBool() const;
 };
 
 
-#endif //PROJ3_L1CACHE_H
+#endif //PROJ3_TLB_H

@@ -13,13 +13,13 @@
 
 using namespace std;
 
-struct dataEntry //struct to hold an lru number and the tag
+struct L1dataEntry //struct to hold an lru number and the tag
 {
     int tag = -1;
     int LRUNum = -1;
 };
 
-vector<vector<dataEntry>> CacheMemory;
+vector<vector<L1dataEntry>> CacheMemory;
 
 /**
     No arg constructor
@@ -37,7 +37,7 @@ L1Cache::L1Cache()
  void L1Cache::InitCache()
 {
      //set the initial vector size and set the entries to -1
-    vector<vector<dataEntry>> temp( GetNumberOfSets() , vector<dataEntry> (GetSetSize(), dataEntry()));
+    vector<vector<L1dataEntry>> temp(GetNumberOfSets() , vector<L1dataEntry> (GetSetSize(), L1dataEntry()));
     CacheMemory = temp;
     for(int i = 0; i < GetNumberOfSets(); i ++)
     {
@@ -54,7 +54,7 @@ L1Cache::L1Cache()
  */
 void L1Cache::Insert(int index, int tag)
 {
-    dataEntry entry;
+    L1dataEntry entry;
     entry.tag = tag;
     entry.LRUNum = 0; //set the LRU to 0 to show its the most recently used entry
 
@@ -119,7 +119,7 @@ void L1Cache::EvictLRU (int index)
         }
     }
 
-    dataEntry entry;
+    L1dataEntry entry;
     CacheMemory[index][indexEvict] = entry;
 
     SetEvictionBool(true);

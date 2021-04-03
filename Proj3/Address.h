@@ -22,7 +22,7 @@ private:
     int address;
     int pageOffset;
     int pobits;
-    int virtualPageNumber;
+    int vPageNumber;
     int physicalPageNumber;
     int tlbIndex;
     int blockOffset;
@@ -34,7 +34,9 @@ private:
     int numberPageIndexBits;
 
 public:
+    Address ();
     Address (int inAddr);
+
     int GetAddress() const;
 
     void SetNumberPageOffsetBits(int inPOBits);
@@ -68,9 +70,6 @@ public:
     int CalculateTLBIndex();
     void SetTLBIndex(int inTLBIndex);
     int GetTLBIndex() const;
-    int CalculateVirutalPageNumber();
-    void SetVirutalPageNumber(int inVirutalPageNumber);
-    int GetVirutalPageNumber() const;
     int CalculateDirtyBit();
     void SetDirtyBit(int inDirtyBit);
     int GetDirtyBit() const;*/

@@ -16,6 +16,10 @@ Address::Address (int inAddr)
 {
     address = inAddr;
 }
+Address::Address ()
+{
+
+}
 
 /**
  * GetOffset
@@ -247,3 +251,4 @@ int Address::GetNumberPageOffsetBits() const
 {
     return pobits;
 }
+

@@ -7,6 +7,8 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/tmp/proj3/Address.cpp" "/tmp/proj3/cmake-build-debug-remote-pi/CMakeFiles/Proj3.dir/Address.cpp.o"
   "/tmp/proj3/L1Cache.cpp" "/tmp/proj3/cmake-build-debug-remote-pi/CMakeFiles/Proj3.dir/L1Cache.cpp.o"
   "/tmp/proj3/L2Cache.cpp" "/tmp/proj3/cmake-build-debug-remote-pi/CMakeFiles/Proj3.dir/L2Cache.cpp.o"
+  "/tmp/proj3/PageTable.cpp" "/tmp/proj3/cmake-build-debug-remote-pi/CMakeFiles/Proj3.dir/PageTable.cpp.o"
+  "/tmp/proj3/TLB.cpp" "/tmp/proj3/cmake-build-debug-remote-pi/CMakeFiles/Proj3.dir/TLB.cpp.o"
   "/tmp/proj3/main.cpp" "/tmp/proj3/cmake-build-debug-remote-pi/CMakeFiles/Proj3.dir/main.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")

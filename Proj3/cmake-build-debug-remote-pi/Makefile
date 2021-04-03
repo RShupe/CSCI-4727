@@ -204,6 +204,60 @@ L2Cache.cpp.s:
 	$(MAKE) -f CMakeFiles/Proj3.dir/build.make CMakeFiles/Proj3.dir/L2Cache.cpp.s
 .PHONY : L2Cache.cpp.s
 
+PageTable.o: PageTable.cpp.o
+
+.PHONY : PageTable.o
+
+# target to build an object file
+PageTable.cpp.o:
+	$(MAKE) -f CMakeFiles/Proj3.dir/build.make CMakeFiles/Proj3.dir/PageTable.cpp.o
+.PHONY : PageTable.cpp.o
+
+PageTable.i: PageTable.cpp.i
+
+.PHONY : PageTable.i
+
+# target to preprocess a source file
+PageTable.cpp.i:
+	$(MAKE) -f CMakeFiles/Proj3.dir/build.make CMakeFiles/Proj3.dir/PageTable.cpp.i
+.PHONY : PageTable.cpp.i
+
+PageTable.s: PageTable.cpp.s
+
+.PHONY : PageTable.s
+
+# target to generate assembly for a file
+PageTable.cpp.s:
+	$(MAKE) -f CMakeFiles/Proj3.dir/build.make CMakeFiles/Proj3.dir/PageTable.cpp.s
+.PHONY : PageTable.cpp.s
+
+TLB.o: TLB.cpp.o
+
+.PHONY : TLB.o
+
+# target to build an object file
+TLB.cpp.o:
+	$(MAKE) -f CMakeFiles/Proj3.dir/build.make CMakeFiles/Proj3.dir/TLB.cpp.o
+.PHONY : TLB.cpp.o
+
+TLB.i: TLB.cpp.i
+
+.PHONY : TLB.i
+
+# target to preprocess a source file
+TLB.cpp.i:
+	$(MAKE) -f CMakeFiles/Proj3.dir/build.make CMakeFiles/Proj3.dir/TLB.cpp.i
+.PHONY : TLB.cpp.i
+
+TLB.s: TLB.cpp.s
+
+.PHONY : TLB.s
+
+# target to generate assembly for a file
+TLB.cpp.s:
+	$(MAKE) -f CMakeFiles/Proj3.dir/build.make CMakeFiles/Proj3.dir/TLB.cpp.s
+.PHONY : TLB.cpp.s
+
 main.o: main.cpp.o
 
 .PHONY : main.o
@@ -249,6 +303,12 @@ help:
 	@echo "... L2Cache.o"
 	@echo "... L2Cache.i"
 	@echo "... L2Cache.s"
+	@echo "... PageTable.o"
+	@echo "... PageTable.i"
+	@echo "... PageTable.s"
+	@echo "... TLB.o"
+	@echo "... TLB.i"
+	@echo "... TLB.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

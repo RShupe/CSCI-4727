@@ -102,6 +102,18 @@
 		<Unit filename="/tmp/proj3/L2Cache.h">
 			<Option target="Proj3"/>
 		</Unit>
+		<Unit filename="/tmp/proj3/PageTable.cpp">
+			<Option target="Proj3"/>
+		</Unit>
+		<Unit filename="/tmp/proj3/PageTable.h">
+			<Option target="Proj3"/>
+		</Unit>
+		<Unit filename="/tmp/proj3/TLB.cpp">
+			<Option target="Proj3"/>
+		</Unit>
+		<Unit filename="/tmp/proj3/TLB.h">
+			<Option target="Proj3"/>
+		</Unit>
 		<Unit filename="/tmp/proj3/main.cpp">
 			<Option target="Proj3"/>
 		</Unit>
