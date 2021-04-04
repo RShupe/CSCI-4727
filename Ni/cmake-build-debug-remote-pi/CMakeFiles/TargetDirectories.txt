@@ -1,3 +1,0 @@
-/tmp/tmp.VAXxmHxyTl/cmake-build-debug-remote-pi/CMakeFiles/rebuild_cache.dir
-/tmp/tmp.VAXxmHxyTl/cmake-build-debug-remote-pi/CMakeFiles/Ni.dir
-/tmp/tmp.VAXxmHxyTl/cmake-build-debug-remote-pi/CMakeFiles/edit_cache.dir
