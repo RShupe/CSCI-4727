@@ -16,8 +16,8 @@ See trace.dat, real_tr.dat, and the example section for examples of memory refer
 Before processing the trace file, the memory hierarchy simulator will read a configuration file (named trace.config), located in the present working directory, that specifies the configuration for the individual modules. See trace.configand the example section for the required format and expected key:value pairs
 
 ### Example
-![Result Header](https://drive.google.com/file/d/1CMiYIAiNXw9WN89UTGEyvy0T2zPJ5ZNu/view?usp=sharing)
+![Result Header](https://i.ibb.co/jMZFM8q/Image1.jpg)
 Format: ![Alt Text](url)
-![Result Table](https://drive.google.com/file/d/1a3xBkCA0KledAHjnCWADLcN-hcfvlByt/view?usp=sharing)
+![Result Table](https://i.ibb.co/MpSGZkb/Image2.jpg)
 Format: ![Alt Text](url)
 
