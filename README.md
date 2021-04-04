@@ -1,10 +1,22 @@
 # CSCI-4727 Operating Systems
-This is the repository where I host all of my projects.
-This repository is different than my other class repos. 
-Each project or lab is under its own branch. 
+### 3. Memory Hierarchy Simulator
 
-Main Projects:
-1. Linux Pipes 
-2. CPU Utilization
-3. Memory Hierarchy Simulator
-4. Multithreading
+A console-based simulation for individual elements of the memory hierarchy—a page table (PT), a data cache (DC), and a data translation look-aside buffer (DTLB)—and how a data reference (virtual and/or physical) traverses the hierarchy.
+
+Trace: a memory reference has the following format:
+<accesstype>:<hexaddress> 
+    
+<accesstype>is one of the two following characters:
+R – a read access
+W – a write access
+    
+<hexaddress> is the starting address of the reference (expressed as a hexadecimal number) with a reference size ranging from 8 bits to 32 bits. 
+
+See trace.dat, real_tr.dat, and the example section for examples of memory references.
+Before processing the trace file, the memory hierarchy simulator will read a configuration file (named trace.config), located in the present working directory, that specifies the configuration for the individual modules. See trace.configand the example section for the required format and expected key:value pairs
+
+### Example
+![Result Header](/images/Image1.jpg)
+Format: ![Alt Text](url)
+![Result Table](/images/Image2.png)
+Format: ![Alt Text](url)
