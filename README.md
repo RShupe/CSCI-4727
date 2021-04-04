@@ -17,7 +17,7 @@ Before processing the trace file, the memory hierarchy simulator will read a con
 
 ### Example
 ![Result Header](https://i.ibb.co/jMZFM8q/Image1.jpg)
-![Alt Text](url)
+
 ![Result Table](https://i.ibb.co/MpSGZkb/Image2.jpg)
-![Alt Text](url)
+
 
