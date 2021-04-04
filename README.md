@@ -1,10 +1,5 @@
 # CSCI-4727 Operating Systems
-This is the repository where I host all of my projects.
-This repository is different than my other class repos. 
-Each project or lab is under its own branch. 
+Project 1: Pipes
 
-Main Projects:
-1. Linux Pipes 
-2. CPU Utilization
-3. Memory Hierarchy Simulator
-4. Multithreading
+A battle simulator that is inspired by Monty Python and the Holy Grail. 
+Each combatant communicates and fights each other through a forked process and a pipe.
