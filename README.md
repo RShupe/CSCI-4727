@@ -1,14 +1,14 @@
 # CSCI-4727 Operating Systems
 ### 3. Memory Hierarchy Simulator
 
-A console-based simulation for individual elements of the memory hierarchy—a page table (PT), a data cache (DC), and a data translation look-aside buffer (DTLB)—and how a data reference (virtual and/or physical) traverses the hierarchy.\
+A console-based simulation for individual elements of the memory hierarchy—a page table (PT), a data cache (DC), and a data translation look-aside buffer (DTLB)—and how a data reference (virtual and/or physical) traverses the hierarchy.
 
 Trace: a memory reference has the following format:\
 accesstype:hexaddress>
     
 accesstype is one of the two following characters:\
 R – a read access\
-W – a write access\
+W – a write access
     
 hexaddress is the starting address of the reference (expressed as a hexadecimal number) with a reference size ranging from 8 bits to 32 bits. 
 
