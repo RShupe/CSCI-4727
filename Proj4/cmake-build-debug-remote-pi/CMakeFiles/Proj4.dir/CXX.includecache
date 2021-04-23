@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/tmp/tmp.oPXgd8T4W6/lib/Logger.cpp
+iostream
+-
+fstream
+-
+Logger.h
+/tmp/tmp.oPXgd8T4W6/lib/Logger.h
+
+/tmp/tmp.oPXgd8T4W6/lib/Logger.h
+
+/tmp/tmp.oPXgd8T4W6/mob/Knight.cpp
+Knight.h
+/tmp/tmp.oPXgd8T4W6/mob/Knight.h
+
+/tmp/tmp.oPXgd8T4W6/mob/Knight.h
+string
+-
+
+/tmp/tmp.oPXgd8T4W6/mob/Rabbit.cpp
+string
+-
+Rabbit.h
+/tmp/tmp.oPXgd8T4W6/mob/Rabbit.h
+
+/tmp/tmp.oPXgd8T4W6/mob/Rabbit.h
+
