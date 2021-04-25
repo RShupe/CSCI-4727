@@ -792,6 +792,7 @@ void CheckArguments(int argc, char *argv[])
                     {
                         logger.Log("WARNING", "Log file name not found. Defaulting to log.");
                         logger.SetLogFileName("log");
+                        fileName = "log";
                         logger.OpenFile();
                     }
                 }
@@ -799,6 +800,7 @@ void CheckArguments(int argc, char *argv[])
                 {
                     logger.Log("WARNING", "Log file name not found. Defaulting to log.");
                     logger.SetLogFileName("log");
+                    fileName = "log";
                     logger.OpenFile();
                 };
 
@@ -876,6 +878,7 @@ void CheckArguments(int argc, char *argv[])
         {
             logger.Log("WARNING", "Log file name not found. Defaulting to log.");
             logger.SetLogFileName("log");
+            fileName = "log";
             logger.OpenFile();
         }
 
