@@ -2,7 +2,7 @@
 This is the repository where I host all of my projects. \
 This repository is different than my other class repos. \
 Each project is under its own branch. \
-Labs or misc projects are in the master. \
+Labs or misc projects are in the master. 
 
 Main Projects:
 1. Linux Pipes 
